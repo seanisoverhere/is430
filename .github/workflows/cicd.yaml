@@ -36,37 +36,12 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
           yarn install --force --non-interactive
-  unit-test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-    needs: [install-cache]
-    steps:
-      - name: Checkout Commit
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Restore yarn dependencies
-        uses: actions/cache@v2
-        id: cache-dependencies
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Run test
-        run: |
-          yarn test
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
-    needs: [unit-test, install-cache]
+    needs: [install-cache]
     steps:
       - name: Checkout Commit
         uses: actions/checkout@v2
@@ -86,7 +61,7 @@ jobs:
           yarn build
   deploy:
     runs-on: ubuntu-latest
-    needs: [install-cache, unit-test, build]
+    needs: [install-cache, build]
     steps:
       - name: Checkout Commit
         uses: actions/checkout@v2
