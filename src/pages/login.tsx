@@ -1,17 +1,15 @@
 import type { NextPage } from "next";
-import OTP from "@/components/Login/OTP";
+import LoginForm from "@/components/Login/LoginForm";
 
 const Login: NextPage = () => {
   return (
-    <div className='bg-black min-h-screen'>
-      Login Page
-      <OTP
-        autoFocus
-        length={6}
-        className="flex justify-between items-center"
-        inputClassName="w-14 h-14 text-4xl text-center"
-        onChangeOTP={(otp) => console.log(otp)}
-      />
+    <div className="min-h-screen flex">
+      <div className="w-1/2">
+        <img src="/splash.jpg" alt="Login Splash" className="h-screen" />
+      </div>
+      <div className="w-1/2">
+        <LoginForm />
+      </div>
     </div>
   );
 };
