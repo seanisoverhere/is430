@@ -1,5 +1,6 @@
-import React, { memo, useRef, useLayoutEffect } from "react";
+import React, { memo, useRef } from "react";
 import usePrevious from "@/hooks/usePrevious";
+import useIsomorphicEffect from "@/hooks/useIsomorphicEffect";
 
 type SingleInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   focus?: boolean;
@@ -12,7 +13,8 @@ const SingleInputComponent = ({
 }: SingleInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const prevFocus = usePrevious(!!focus);
-  useLayoutEffect(() => {
+
+  useIsomorphicEffect(() => {
     if (inputRef.current) {
       if (focus && autoFocus) {
         inputRef.current.focus();
