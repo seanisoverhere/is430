@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import OTP from "@/components/Login/OTP";
 
 const LoginForm = () => {
+  const [isShowOTP, setIsShowOTP] = useState<boolean>(false);
   return (
-    <div>
-      Login Form
+    <div className="my-24">
       <OTP
         autoFocus
         length={6}
