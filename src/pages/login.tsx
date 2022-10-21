@@ -17,15 +17,19 @@ const Login: NextPage = () => {
               <TypeAnimation
                 className="max-w-xl mb-6 font-sans text-2xl font-bold tracking-loose text-white sm:text-5xl"
                 wrapper="h2"
+                style={{ lineHeight: "4rem" }}
                 cursor={true}
-                sequence={["Buy Now, Pay Later with Deez", 1000]}
+                sequence={["Buy Now, Pay Later with XBB", 1000]}
               ></TypeAnimation>
               <p className="max-w-xl mb-4 text-base text-gray-400 md:text-lg">
-              With the premier Buy Now, Pay Later solution for B2B, increase your revenue by giving business clients the greatest checkout experience with their preferred payment methods and flexible terms while you get upfront payment and zero risk.
+                With the premier Buy Now, Pay Later solution for B2B, increase
+                your revenue by giving business clients the greatest checkout
+                experience with their preferred payment methods and flexible
+                terms while you get upfront payment and zero risk.
               </p>
             </div>
             <div className="w-full max-w-2xl xl:px-8 xl:w-1/2">
-              <div className="bg-white rounded-lg shadow-xl p-7 sm:px-12 py-20">
+              <div className="bg-white rounded-lg shadow-xl p-7 sm:px-12 pb-16">
                 <LoginForm />
               </div>
             </div>

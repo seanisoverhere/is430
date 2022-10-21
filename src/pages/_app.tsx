@@ -6,8 +6,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>IS430 B2B</title>
-        <meta name="description" content="IS430 B2B Lending App" />
+        <title>Xchange In B2B</title>
+        <meta name="description" content="XBB B2B App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />

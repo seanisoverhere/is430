@@ -28,11 +28,9 @@ const LoginForm = () => {
     <>
       <div>
         <div className="flex justify-center items-center">
-          <div className="w-16">
-            <img src="/money.png" alt="Login" />
-          </div>
+          <img src="/logo.png" alt="Login" className="h-52" />
         </div>
-        <h2 className="my-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="-mt-6 mb-8 text-center text-3xl font-extrabold text-gray-900">
           {isShowOTP ? "Please verify your OTP" : "Sign in to your account"}
         </h2>
       </div>
@@ -131,6 +129,9 @@ const LoginForm = () => {
         </Formik>
       ) : (
         <>
+          <div className="text-center pb-10">
+            A One-Time Password has been sent to your mobile
+          </div>
           <OTP
             autoFocus
             length={6}
@@ -138,6 +139,9 @@ const LoginForm = () => {
             inputClassName="w-14 h-14 text-4xl text-center border border-black mb-8"
             onChangeOTP={(otp) => console.log(otp)}
           />
+          <div className="pb-8 text-center">
+            Don&apos;t have OTP? <span className="font-bold hover:cursor-pointer">Resend</span>
+          </div>
           <button
             type="submit"
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
