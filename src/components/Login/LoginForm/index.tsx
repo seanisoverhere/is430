@@ -140,7 +140,7 @@ const LoginForm = () => {
             onChangeOTP={(otp) => console.log(otp)}
           />
           <div className="pb-8 text-center">
-            Don't have OTP? <span className="font-bold hover:cursor-pointer">Resend</span>
+            Don&apos;t have OTP? <span className="font-bold hover:cursor-pointer">Resend</span>
           </div>
           <button
             type="submit"
