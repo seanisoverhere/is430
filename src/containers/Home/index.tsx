@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import type { MenuProps } from "antd";
-import { Layout, Breadcrumb, Menu } from "antd";
-import { MailOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { Layout, Menu } from "antd";
+import { BarChartOutlined, AppstoreAddOutlined } from "@ant-design/icons";
 
 const { Content, Sider } = Layout;
 
@@ -24,8 +24,8 @@ const getItem = (
 };
 
 const items: MenuItem[] = [
-  getItem("Navigation One", "sub1", <MailOutlined />),
-  getItem("Navigation Two", "sub2", <AppstoreOutlined />),
+  getItem("Dashboard", "1", <BarChartOutlined />),
+  getItem("Application", "2", <AppstoreAddOutlined />),
 ];
 
 const Home = () => {
@@ -48,12 +48,10 @@ const Home = () => {
         />
       </Sider>
       <Layout>
-        <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          Hello World
+        <Content>
+          <div className="p-12">
+            <div className="text-2xl font-bold">Dashboard</div>
+          </div>
         </Content>
       </Layout>
     </Layout>
