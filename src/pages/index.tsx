@@ -1,11 +1,3 @@
-import type { NextPage } from 'next'
+import Home from "@/containers/Home";
 
-const Home: NextPage = () => {
-  return (
-    <div className="min-h-screen bg-blue-300">
-      Payments App
-    </div>
-  )
-}
-
-export default Home
+export default Home;
