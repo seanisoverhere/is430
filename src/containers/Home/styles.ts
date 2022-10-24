@@ -4,14 +4,18 @@ import { Card } from "antd";
 export const StyledCard = styled(Card)`
   && {
     border-radius: 20px;
+
+    .ant-card-body {
+      padding: 20px;
+    }
   }
 `;
 
-export const IconBox = styled.div`
+export const IconBox = styled.div<{ $color: string }>`
   width: 48px;
   height: 48px;
   text-align: center;
-  background: #1890ff;
+  background: ${({ $color }) => $color};
   color: #fff;
   border-radius: 0.5rem;
 `;

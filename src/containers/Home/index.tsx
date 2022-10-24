@@ -1,31 +1,39 @@
 import React, { useState } from "react";
-import { Layout, Row, Col, Typography } from "antd";
-import { CarOutlined } from "@ant-design/icons";
+import { Layout, Row, Col } from "antd";
+import {
+  DollarOutlined,
+  BankOutlined,
+  InsuranceOutlined,
+  WalletOutlined,
+} from "@ant-design/icons";
 import { StyledCard, IconBox, Icon } from "./styles";
 
 const { Content } = Layout;
-const { Title } = Typography;
 
 const count = [
   {
-    today: "Today's Sales",
+    today: "Outstanding Loans",
     title: "$53,000",
-    icon: <CarOutlined />,
+    icon: <DollarOutlined />,
+    color: "#FFC107",
   },
   {
-    today: "Today's Users",
-    title: "3,200",
-    icon: <CarOutlined />,
+    today: "Total Amount Paid",
+    title: "$53,124.41",
+    icon: <WalletOutlined />,
+    color: "#4CAF50",
   },
   {
-    today: "New Clients",
-    title: "+1,200",
-    icon: <CarOutlined />,
+    today: "Interest Paid",
+    title: "$124,41",
+    icon: <BankOutlined />,
+    color: "#2196F3",
   },
   {
-    today: "New Orders",
-    title: "$13,200",
-    icon: <CarOutlined />,
+    today: "Interest Rate",
+    title: "1.22%",
+    icon: <InsuranceOutlined />,
+    color: "#f797c5",
   },
 ];
 
@@ -42,19 +50,21 @@ const Home = () => {
                 xs={24}
                 sm={24}
                 md={24}
-                lg={24}
+                lg={12}
                 xl={6}
                 className="mb-9"
               >
                 <StyledCard bordered={false}>
                   <div className="flex justify-between items-center w-full">
-                    <div className='sm:text-base lg:text-lg'>
-                      <span>{c.today}</span>
-                      <div className="font-bold">
+                    <div>
+                      <span className="sm:text-sm lg:text-base text-gray-400 font-semibold">
+                        {c.today}
+                      </span>
+                      <div className="font-bold text-xl lg:text-2xl">
                         {c.title}
                       </div>
                     </div>
-                    <IconBox>
+                    <IconBox $color={c.color}>
                       <Icon>{c.icon}</Icon>
                     </IconBox>
                   </div>
