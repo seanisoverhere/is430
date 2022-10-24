@@ -30,9 +30,9 @@ const LoginForm = () => {
         <div className="flex justify-center items-center">
           <img src="/logo.png" alt="Login" className="h-52" />
         </div>
-        <h2 className="-mt-6 mb-8 text-center text-3xl font-extrabold text-gray-900">
+        <div className="-mt-6 mb-8 text-center text-3xl font-extrabold text-gray-900">
           {isShowOTP ? "Please verify your OTP" : "Sign in to your account"}
-        </h2>
+        </div>
       </div>
       {!isShowOTP ? (
         <Formik
@@ -117,10 +117,10 @@ const LoginForm = () => {
                   {isSubmitting ? (
                     <div className="flex items-center justify-center">
                       <CgSpinner className="inline mr-2 w-6 h-6 text-white animate-spin" />
-                      <h4 className="text-sm">Signing in...</h4>
+                      <div className="text-sm">Signing in...</div>
                     </div>
                   ) : (
-                    <h4 className="text-sm">Sign In</h4>
+                    <div className="text-sm">Sign In</div>
                   )}
                 </button>
               </div>
@@ -152,7 +152,7 @@ const LoginForm = () => {
                 aria-hidden="true"
               />
             </span>
-            <h4 className="text-sm">Verify</h4>
+            <div className="text-sm">Verify</div>
           </button>
         </>
       )}
