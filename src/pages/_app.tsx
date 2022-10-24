@@ -7,6 +7,7 @@ import { BarChartOutlined, AppstoreAddOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const { Sider } = Layout;
 
@@ -29,8 +30,8 @@ const getItem = (
 };
 
 const items: MenuItem[] = [
-  getItem("Dashboard", "1", <BarChartOutlined />),
-  getItem("Application", "2", <AppstoreAddOutlined />),
+  getItem(<Link href="/">Dashboard</Link>, "1", <BarChartOutlined />),
+  getItem(<Link href="/loans">Loans</Link>, "2", <AppstoreAddOutlined />),
 ];
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -43,8 +44,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="XBB B2B App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {router.pathname !== "/login" && (
-        <Layout style={{ minHeight: "100vh" }}>
+
+      <Layout style={{ minHeight: "100vh" }}>
+        {router.pathname !== "/login" && (
           <Sider
             theme="light"
             collapsible
@@ -59,9 +61,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               items={items}
             />
           </Sider>
-        </Layout>
-      )}
-      <Component {...pageProps} />
+        )}
+        <Component {...pageProps} />
+      </Layout>
     </>
   );
 }
