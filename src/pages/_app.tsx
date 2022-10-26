@@ -6,30 +6,30 @@ import { CenterContainer, MobileContainer, NavContainer } from "@/utils/styles";
 import { TabBar } from "antd-mobile";
 import {
   AppOutline,
-  UnorderedListOutline,
-  MessageOutline,
+  BankcardOutline,
   UserOutline,
+  BillOutline,
 } from "antd-mobile-icons";
 import { useRouter } from "next/router";
 
 const tabs = [
   {
-    key: "home",
+    key: "/",
     title: "Home",
     icon: <AppOutline />,
   },
   {
-    key: "todo",
+    key: "loans",
     title: "Loans",
-    icon: <UnorderedListOutline />,
+    icon: <BankcardOutline />,
   },
   {
-    key: "message",
+    key: "payments",
     title: "Payments",
-    icon: <MessageOutline />,
+    icon: <BillOutline />,
   },
   {
-    key: "personalCenter",
+    key: "profile",
     title: "Profile",
     icon: <UserOutline />,
   },
@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
           {router.pathname !== "/login" && (
             <NavContainer>
-              <TabBar>
+              <TabBar onChange={(val) => router.push(val)}>
                 {tabs.map((item) => (
                   <TabBar.Item
                     key={item.key}
