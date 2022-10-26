@@ -8,7 +8,6 @@ import {
   MobileContainer,
   NavContainer,
 } from "@/utils/styles";
-import { TabBar } from "antd-mobile";
 import {
   AppOutline,
   BankcardOutline,

@@ -32,7 +32,7 @@ export const PageTitle = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  padding: 2rem;
+  padding: 4rem 2rem;
   overflow-y: scroll;
   height: 100vh;
 `;
