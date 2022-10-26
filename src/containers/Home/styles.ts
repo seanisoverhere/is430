@@ -5,12 +5,6 @@ export const StyledDivider = styled(Divider)`
   && {
     color: #374151;
     border-color: #374151;
+    margin: 2rem 0;
   }
-`;
-
-export const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2rem;
 `;

@@ -1,18 +1,18 @@
 import React from "react";
 import { PageTitle } from "@/utils/styles";
 import { DateTime } from "luxon";
-import { StyledDivider, FlexContainer } from "./styles";
+import { StyledDivider } from "./styles";
+import RepaymentCard from "@/components/RepaymentCard";
 
 const Home = () => {
   return (
     <>
-      <FlexContainer>
-        <PageTitle>Your Repayments</PageTitle>
-      </FlexContainer>
+      <PageTitle>Your Repayments</PageTitle>
       <StyledDivider>
         Upcoming payment for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
         {DateTime.local().year}
       </StyledDivider>
+      <RepaymentCard title="Electronic Solutions Co." />
     </>
   );
 };
