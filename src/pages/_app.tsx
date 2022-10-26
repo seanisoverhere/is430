@@ -2,7 +2,12 @@ import "../styles/globals.css";
 import "antd/dist/antd.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { CenterContainer, MobileContainer, NavContainer } from "@/utils/styles";
+import {
+  CenterContainer,
+  ContentContainer,
+  MobileContainer,
+  NavContainer,
+} from "@/utils/styles";
 import { TabBar } from "antd-mobile";
 import {
   AppOutline,
@@ -11,6 +16,7 @@ import {
   BillOutline,
 } from "antd-mobile-icons";
 import { useRouter } from "next/router";
+import { StyledTabBar } from "@/utils/styles";
 
 const tabs = [
   {
@@ -43,21 +49,27 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>Xchange In B2B</title>
         <meta name="description" content="XBB B2B App" />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <CenterContainer>
         <MobileContainer>
-          <Component {...pageProps} />
+          <ContentContainer>
+            <Component {...pageProps} />
+          </ContentContainer>
           {router.pathname !== "/login" && (
             <NavContainer>
-              <TabBar onChange={(val) => router.push(val)}>
+              <StyledTabBar onChange={(val) => router.push(val)}>
                 {tabs.map((item) => (
-                  <TabBar.Item
+                  <StyledTabBar.Item
                     key={item.key}
                     icon={item.icon}
                     title={item.title}
                   />
                 ))}
-              </TabBar>
+              </StyledTabBar>
             </NavContainer>
           )}
         </MobileContainer>
