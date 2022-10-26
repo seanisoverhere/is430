@@ -6,6 +6,7 @@ export const CenterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #e5e5e5;
 `;
 
 export const MobileContainer = styled.div`
@@ -13,4 +14,13 @@ export const MobileContainer = styled.div`
   width: 100%;
   max-width: ${MOBILE_VIEWPORT};
   background-color: #f8f8f8;
+  position: relative;
+`;
+
+export const NavContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  padding: 0.25rem 0;
 `;
