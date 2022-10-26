@@ -10,6 +10,7 @@ import {
   MessageOutline,
   UserOutline,
 } from "antd-mobile-icons";
+import { useRouter } from "next/router";
 
 const tabs = [
   {
@@ -35,6 +36,7 @@ const tabs = [
 ];
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -45,17 +47,19 @@ function MyApp({ Component, pageProps }: AppProps) {
       <CenterContainer>
         <MobileContainer>
           <Component {...pageProps} />
-          <NavContainer>
-            <TabBar>
-              {tabs.map((item) => (
-                <TabBar.Item
-                  key={item.key}
-                  icon={item.icon}
-                  title={item.title}
-                />
-              ))}
-            </TabBar>
-          </NavContainer>
+          {router.pathname !== "/login" && (
+            <NavContainer>
+              <TabBar>
+                {tabs.map((item) => (
+                  <TabBar.Item
+                    key={item.key}
+                    icon={item.icon}
+                    title={item.title}
+                  />
+                ))}
+              </TabBar>
+            </NavContainer>
+          )}
         </MobileContainer>
       </CenterContainer>
     </>
