@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "antd": "^4.23.6",
+    "antd-mobile": "^5.24.2",
     "autoprefixer": "^10.4.12",
     "babel-preset-next": "^1.4.0",
     "formik": "^2.2.9",
