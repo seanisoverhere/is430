@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { Layout, Row, Col } from "antd";
-import { StyledCard, IconBox, Icon } from "./styles";
+import React from "react";
 
 const Home = () => {
   return <div>Test</div>;
