@@ -33,7 +33,6 @@ export const PageTitle = styled.div`
 
 export const ContentContainer = styled.div`
   padding: 4rem 2rem;
-  overflow-y: scroll;
   height: 100vh;
 `;
 
