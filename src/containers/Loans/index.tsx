@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import { Layout } from "antd";
-
-const { Content } = Layout;
+import React from "react";
+import { PageTitle } from "@/utils/styles";
 
 const Loans = () => {
   return (
-    <Layout>
-      <Content>
-        <div className="p-12">
-          <div className="text-2xl font-bold">Loans</div>
-        </div>
-      </Content>
-    </Layout>
+    <>
+      <PageTitle>Loans</PageTitle>
+    </>
   );
 };
 
