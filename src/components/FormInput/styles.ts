@@ -20,6 +20,7 @@ export const StyledInput = styled.input<{ $hasError?: boolean }>`
   line-height: 25px;
   color: #4c4c4c;
   width: 100%;
+  background: transparent;
 
   :focus {
     border-color: #4c4c4c;

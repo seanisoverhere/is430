@@ -23,7 +23,7 @@ const FormInput = ({
   name,
   register,
   errors,
-}: FormInputProps) => {
+}: FormInputProps) => (
   <>
     <TextField>
       <InputText>{inputText}</InputText>
@@ -40,7 +40,7 @@ const FormInput = ({
         <ErrorText>This field is required.</ErrorText>
       </AlignError>
     )}
-  </>;
-};
+  </>
+);
 
 export default FormInput;
