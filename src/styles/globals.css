@@ -8,6 +8,10 @@
   font-family: "Poppins", sans-serif;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 keyframes fade-in {
   0%,
   90% {

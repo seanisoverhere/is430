@@ -8,6 +8,7 @@ export const CenterContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: #e5e5e5;
+  overflow: hidden;
 `;
 
 export const MobileContainer = styled.div`

@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { PageTitle } from "@/utils/styles";
 import { DateTime } from "luxon";
-import { StyledDivider } from "./styles";
+import {
+  ChartContainer,
+  LoanContainer,
+  StyledDivider,
+  StyledSpace,
+} from "./styles";
 import RepaymentCard from "@/components/RepaymentCard";
 import { HalfPieChart } from "@/components/Chart";
 
@@ -18,18 +23,18 @@ const Home = () => {
   const data = {
     right: [
       {
-        value: 20,
-        displayValue: "20 $",
+        value: 13422.42,
+        displayValue: "$ 13422.42",
         text: "Loans Paid",
-        color: "#4cb38e",
+        color: "#1ccf8d",
       },
     ],
     left: [
       {
-        value: 10,
-        displayValue: "10 $",
+        value: 24612.11,
+        displayValue: "$ 24612.11",
         text: "Remaining",
-        color: "#eee36b",
+        color: "#d1d1d1",
       },
     ],
   };
@@ -38,18 +43,29 @@ const Home = () => {
     <>
       <PageTitle>Your Repayments</PageTitle>
       {hydrated && (
-        <HalfPieChart
-          name="loanStatus"
-          right={data.right}
-          left={data.left}
-          fontStyle="Poppins"
-        />
+        <ChartContainer>
+          <HalfPieChart
+            name="loanStatus"
+            right={data.right}
+            left={data.left}
+            fontStyle="Poppins"
+          />
+        </ChartContainer>
       )}
       <StyledDivider>
         Upcoming payment for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
         {DateTime.local().year}
       </StyledDivider>
-      <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+      <LoanContainer>
+        <StyledSpace direction="vertical" size="large">
+          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+        </StyledSpace>
+      </LoanContainer>
     </>
   );
 };
