@@ -39,6 +39,8 @@ const Home = () => {
     ],
   };
 
+  const numCards = "300px";
+
   return (
     <>
       <PageTitle>Your Repayments</PageTitle>
@@ -56,10 +58,8 @@ const Home = () => {
         Upcoming payment for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
         {DateTime.local().year}
       </StyledDivider>
-      <LoanContainer>
+      <LoanContainer style={{ maxHeight: `calc(100vh - ${numCards})` }}>
         <StyledSpace direction="vertical" size="large">
-          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
-          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
           <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
           <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
           <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />

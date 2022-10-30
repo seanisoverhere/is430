@@ -17,7 +17,6 @@ export const StyledDivider = styled(Divider)`
 
 export const LoanContainer = styled.div`
   overflow: auto;
-  max-height: 38rem;
 `;
 
 export const StyledSpace = styled(Space)`
