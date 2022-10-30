@@ -1,26 +1,26 @@
 import styled from "styled-components";
-import { Card } from "antd";
+import { Divider } from "antd-mobile";
+import { Space } from "antd";
 
-export const StyledCard = styled(Card)`
+export const ChartContainer = styled.div`
+  margin: 1rem 0;
+`;
+
+export const StyledDivider = styled(Divider)`
   && {
-    border-radius: 20px;
-
-    .ant-card-body {
-      padding: 20px;
-    }
+    margin: 1rem 0;
+    font-weight: 600;
+    font-size: 13px;
+    border-color: #000;
   }
 `;
 
-export const IconBox = styled.div<{ $color: string }>`
-  width: 48px;
-  height: 48px;
-  text-align: center;
-  background: ${({ $color }) => $color};
-  color: #fff;
-  border-radius: 0.5rem;
+export const LoanContainer = styled.div`
+  overflow: auto;
 `;
 
-export const Icon = styled.div`
-  height: 100%;
-  font-size: 1.5rem;
+export const StyledSpace = styled(Space)`
+  && {
+    width: 100%;
+  }
 `;
