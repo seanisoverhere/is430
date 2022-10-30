@@ -39,7 +39,7 @@ const Home = () => {
     ],
   };
 
-  const numCards = "300px";
+  const numCards = "500px";
 
   return (
     <>

@@ -33,8 +33,18 @@ export const PageTitle = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  padding: 4rem 2rem;
+  padding: 2rem;
   height: 100vh;
+`;
+
+export const Header = styled.div`
+  font-size: 1rem;
+  padding-bottom: 1rem;
+  font-weight: 600;
+  color: #777;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const StyledTabBar = styled(TabBar)`

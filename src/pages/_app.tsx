@@ -7,6 +7,7 @@ import {
   ContentContainer,
   MobileContainer,
   NavContainer,
+  Header,
 } from "@/utils/styles";
 import {
   AppOutline,
@@ -14,6 +15,7 @@ import {
   UserOutline,
   BillOutline,
 } from "antd-mobile-icons";
+import { SettingOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { StyledTabBar } from "@/utils/styles";
 
@@ -56,6 +58,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <CenterContainer>
         <MobileContainer>
           <ContentContainer>
+            {router.pathname !== "/login" && (
+              <Header>
+                XBB SG <SettingOutlined style={{ fontSize: "1.25rem" }} />
+              </Header>
+            )}
             <Component {...pageProps} />
           </ContentContainer>
           {router.pathname !== "/login" && (
