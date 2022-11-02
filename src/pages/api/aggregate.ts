@@ -35,7 +35,7 @@ const scoreAggregate = async (
         inventory,
         longTermLiabilities,
         uuid
-    } = req.body;
+    } = req.body
 
     const companyFinHealthScore = await bizAggregatedScore(
         industry,
@@ -48,20 +48,15 @@ const scoreAggregate = async (
         currentLiabilities,
         inventory,
         longTermLiabilities
-    );
-    const companyFinHealthFactor = COMPANY_HEALTH_WEIGHT * companyFinHealthScore;
-    console.log(companyFinHealthFactor)
+    )
+    const companyFinHealthFactor = COMPANY_HEALTH_WEIGHT * companyFinHealthScore
 
-    const industryOutlookScore = await calIndustryScore(industry);
+    const industryOutlookScore = await calIndustryScore(industry)
     const industryOutlookFactor = INDUSTRY_WEIGHT * industryOutlookScore;
-    console.log(industryOutlookFactor)
 
-    const totalWeight = COMPANY_HEALTH_WEIGHT + INDUSTRY_WEIGHT
-    console.log(totalWeight)
     //this will give us from 0 - 1, higher number = higher credit worthiness
     //we need to define 0 - 1, what is RAG
-    const weightedScore = (companyFinHealthFactor + industryOutlookFactor) / (totalWeight * 100)
-    console.log(Number(weightedScore))
+    const weightedScore = (companyFinHealthFactor + industryOutlookFactor)
 
     await prisma.business.update({
         where: {

@@ -23,27 +23,31 @@ const consumerStaplesWeight = {
 const netProfitMargin = (sales: number, otherIncome: number,
     costOfGoodsSold: number, operatingExp: number, interestExp: number): number => {
 
-    const revenue = sales + otherIncome
-    const netIncome = revenue - costOfGoodsSold - operatingExp - interestExp
-    const netProfit = (netIncome / revenue) * 100
+    const revenue = Number(sales) + Number(otherIncome)
+    const netIncome = Number(revenue) - Number(costOfGoodsSold) - Number(operatingExp) - Number(interestExp)
+    const netProfit = Number(netIncome) / Number(revenue)
 
     return netProfit;
 }
 
 //Liquidity
 const getQuickRatio = (currentAssets: number, currentLiabilities: number,
-    inventory: number): number => (currentAssets - inventory) / currentLiabilities
+    inventory: number): number => {
+    return (Number(currentAssets) - Number(inventory)) / Number(currentLiabilities)
+}
 
 //Solvency
 const getDebtToEquityRatio = (currentAssets: number, currentLiabilities: number,
-    longTermLiabilities: number): number => (currentLiabilities + longTermLiabilities) / currentAssets
+    longTermLiabilities: number): number => {
+    return (Number(currentLiabilities) + Number(longTermLiabilities)) / Number(currentAssets)
+}
 
 //Operating Efficiency
 const operatingProfitMargin = (operatingExp: number, sales: number, otherIncome: number): number => {
-    const revenue = sales + otherIncome
-    const operatingEfficiency = operatingExp / revenue
+    const revenue = Number(sales) + Number(otherIncome)
+    const operatingMargin = Number(operatingExp) / Number(revenue)
 
-    return operatingEfficiency
+    return operatingMargin
 }
 
 export default async function bizAggregatedScore(industry: string, sales: number, otherIncome: number,
@@ -84,8 +88,7 @@ export default async function bizAggregatedScore(industry: string, sales: number
     const operatingProfit = await operatingProfitMargin(operatingExp, sales, otherIncome)
     const operatingProfitFactor = operatingProfit * OPERATINGPROFIT_WEIGHT
 
-    const totalWeight = NETPROFIT_WEIGHT + QUICKRATIO_WEIGHT + DEBTTOEQUITY_WEIGHT + OPERATINGPROFIT_WEIGHT
-    const weightedScore = (netProfitFactor + quickRatioFactor + debtToEquityRatioFactor + operatingProfitFactor) / (totalWeight * 100)
+    const weightedScore = netProfitFactor + quickRatioFactor + debtToEquityRatioFactor + operatingProfitFactor
 
     return weightedScore
 }
