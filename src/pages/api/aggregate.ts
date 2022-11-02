@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import bizAggregatedScore from "./company/finhealth";
 import calIndustryScore from "./industry/score";
 
-const COMPANY_HEALTH_WEIGHT = 1;
-const INDUSTRY_WEIGHT = 1;
+const COMPANY_HEALTH_WEIGHT = 0.8;
+const INDUSTRY_WEIGHT = 0.2;
 
 type Data = {
     result: number;
@@ -33,6 +33,7 @@ const scoreAggregate = async (
         currentLiabilities,
         inventory,
         longTermLiabilities,
+        uuid
     } = req.body;
 
     const companyFinHealthScore = await bizAggregatedScore(
@@ -57,6 +58,15 @@ const scoreAggregate = async (
     //this will give us from 0 - 1, higher number = higher credit worthiness
     //we need to define 0 - 1, what is RAG
     const weightedScore = (companyFinHealthFactor + industryOutlookFactor) / totalWeight
+
+    await prisma?.business.update({
+        where: {
+            uuid: uuid,
+        },
+        data: {
+            aggScore: weightedScore,
+        }
+    })
 
     return res.json({ result: weightedScore })
 }

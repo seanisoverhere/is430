@@ -1,9 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
-
-type Data = {
-    result: number;
-}
-
 const commonWeight = {
     netProfitWeight: 0.25,
     quickRatio: 0.25,

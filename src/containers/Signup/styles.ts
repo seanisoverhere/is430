@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Steps, Row, Space } from "antd";
+import { Steps, Row } from "antd";
 
 export const StepContainer = styled.div`
   margin: 3rem 0;
