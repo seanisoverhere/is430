@@ -4,7 +4,7 @@ const SECTOR_VOLATILITY: any = {
     utilities: 0.0216,
     consumerDiscretion: 0.0039,
     consumerStaples: 0.0188,
-    finSvc: 0.0166,
+    finService: 0.0166,
     healthCare: 0.0154,
     industrial: 0.0194,
     technology: 0.0395,
@@ -13,11 +13,18 @@ const SECTOR_VOLATILITY: any = {
 
 export default async function calIndustryScore(industry: string) {
     let industryScore = SECTOR_VOLATILITY[industry]
+    console.log("INDUSTRY START")
+    console.log(industryScore)
 
     const maxIndustryScore = Math.max.apply(null, Object.values(SECTOR_VOLATILITY))
+    console.log(maxIndustryScore)
     const minIndustryScore = Math.min.apply(null, Object.values(SECTOR_VOLATILITY))
+    console.log(minIndustryScore)
     let industryDelta = maxIndustryScore - industryScore
-    let normalizedIndustryScore = industryDelta / (maxIndustryScore - minIndustryScore)
+    console.log(industryDelta)
 
+    let normalizedIndustryScore = industryDelta / (maxIndustryScore - minIndustryScore)
+    console.log(normalizedIndustryScore)
+    console.log("INDUSTRY END")
     return normalizedIndustryScore
 }

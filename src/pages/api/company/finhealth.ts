@@ -85,7 +85,7 @@ export default async function bizAggregatedScore(industry: string, sales: number
     const operatingProfitFactor = operatingProfit * OPERATINGPROFIT_WEIGHT
 
     const totalWeight = NETPROFIT_WEIGHT + QUICKRATIO_WEIGHT + DEBTTOEQUITY_WEIGHT + OPERATINGPROFIT_WEIGHT
-    const weightedScore = (netProfitFactor + quickRatioFactor + debtToEquityRatioFactor + operatingProfitFactor) / totalWeight
+    const weightedScore = (netProfitFactor + quickRatioFactor + debtToEquityRatioFactor + operatingProfitFactor) / (totalWeight * 100)
 
     return weightedScore
 }

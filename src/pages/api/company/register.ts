@@ -48,7 +48,8 @@ const signup = async (
             email: email,
             password: password,
             companyName: companyName,
-            uenNo: uenNo
+            uenNo: uenNo,
+            aggScore: 0
         }
     })
 
