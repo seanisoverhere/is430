@@ -56,7 +56,7 @@ export const StyledTabBar = styled(TabBar)`
   }
 `;
 
-export const StyledButton = styled.button`
+export const StyledButton = styled.button<{ $isDisabled: boolean }>`
   all: unset;
   text-align: center;
   border-radius: 10px;
@@ -64,8 +64,7 @@ export const StyledButton = styled.button`
   width: 100%;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #000;
-  background-color: #999;
-  cursor: pointer;
+  color: #fff;
+  background-color: ${({ $isDisabled }) => ($isDisabled ? "#ccc" : "#555")};
+  cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "pointer")};
 `;
-
