@@ -68,5 +68,5 @@ const scoreAggregate = async (
         }
     })
 
-    return res.json({ result: weightedScore })
+    return res.status(200).json({ result: weightedScore })
 }
