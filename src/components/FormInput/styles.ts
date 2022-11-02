@@ -30,6 +30,7 @@ export const StyledInput = styled.input<{ $hasError?: boolean }>`
 export const AlignError = styled.div`
   display: flex;
   align-items: center;
+  padding-top: 0.4rem;
 `;
 
 export const ErrorSign = styled.img`

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { PageTitle } from "@/utils/styles";
-
 import FormInput from "@/components/FormInput";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Col } from "antd";
+import { StyledRow } from "./styles";
 
 const Loans = () => {
   const {
@@ -24,13 +25,44 @@ const Loans = () => {
     <>
       <PageTitle>Loans</PageTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormInput
-          inputText="Test"
-          name="test"
-          register={register}
-          errors={errors}
-          isRequired
-        />
+        <StyledRow gutter={[24, 24]}>
+          <Col span={12}>
+            <FormInput
+              inputText="Test"
+              name="test"
+              register={register}
+              errors={errors}
+              isRequired
+            />
+          </Col>
+          <Col span={12}>
+            <FormInput
+              inputText="Test"
+              name="test"
+              register={register}
+              errors={errors}
+              isRequired
+            />
+          </Col>
+          <Col span={12}>
+            <FormInput
+              inputText="Test"
+              name="test"
+              register={register}
+              errors={errors}
+              isRequired
+            />
+          </Col>
+          <Col span={12}>
+            <FormInput
+              inputText="Test"
+              name="test"
+              register={register}
+              errors={errors}
+              isRequired
+            />
+          </Col>
+        </StyledRow>
       </form>
     </>
   );

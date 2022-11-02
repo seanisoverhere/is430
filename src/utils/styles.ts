@@ -55,3 +55,17 @@ export const StyledTabBar = styled(TabBar)`
     }
   }
 `;
+
+export const StyledButton = styled.button`
+  all: unset;
+  text-align: center;
+  border-radius: 10px;
+  height: 40px;
+  width: 100%;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #000;
+  background-color: #999;
+  cursor: pointer;
+`;
+
