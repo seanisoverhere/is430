@@ -4,6 +4,9 @@ import { Form, Formik, Field } from "formik";
 import { FaLock } from "react-icons/fa";
 import { CgSpinner } from "react-icons/cg";
 import * as Yup from "yup";
+import useSignup from "@/hooks/api/useSignup";
+import { useRouter } from "next/router";
+import { message } from "antd";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -15,13 +18,29 @@ const loginSchema = Yup.object().shape({
 const LoginForm = () => {
   const [isShowOTP, setIsShowOTP] = useState<boolean>(false);
   const [loginFail, setLoginFail] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const { logIn } = useSignup();
+  const router = useRouter();
 
-  const handleLogin = (
-    emaiL: string,
-    password: string,
-    setSubmitting: (isSubmitting: boolean) => void
-  ) => {
+  const handleLogin = (email: string, password: string) => {
     setIsShowOTP(true);
+    setEmail(email);
+    setPassword(password);
+  };
+
+  const loggingIn = async () => {
+    const res = await logIn({
+      email,
+      password,
+    });
+
+    if (res.data.success) {
+      message.success("Login successful");
+      router.push("/");
+    } else {
+      message.error("Login Failed");
+    }
   };
 
   return (
@@ -38,11 +57,9 @@ const LoginForm = () => {
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={loginSchema}
-          onSubmit={(value, { setSubmitting }) =>
-            handleLogin(value.email, value.password, setSubmitting)
-          }
+          onSubmit={(value) => handleLogin(value.email, value.password)}
         >
-          {({ values, errors, touched, isSubmitting }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form className="flex flex-col space-y-4">
               <div>
                 <label htmlFor="email">Email address</label>
@@ -51,7 +68,7 @@ const LoginForm = () => {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-t-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
                 />
                 {touched.email && errors.email && (
                   <div className="text-red-600 text-sm py-2">
@@ -66,7 +83,7 @@ const LoginForm = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-b-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
                 />
                 {touched.password && errors.password && (
                   <div className="text-red-600 text-sm py-2">
@@ -140,10 +157,11 @@ const LoginForm = () => {
             onChangeOTP={(otp) => console.log(otp)}
           />
           <div className="pb-8 text-center">
-            Don&apos;t have OTP? <span className="font-bold hover:cursor-pointer">Resend</span>
+            Don&apos;t have OTP?{" "}
+            <span className="font-bold hover:cursor-pointer">Resend</span>
           </div>
           <button
-            type="submit"
+            onClick={loggingIn}
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
