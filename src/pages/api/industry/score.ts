@@ -13,9 +13,7 @@ const SECTOR_VOLATILITY: any = {
     teleComm: 0.0171,
 }
 
-const calIndustryScore = async (req: NextApiRequest, res: NextApiResponse<any>) => {
-    const { industry } = req.body
-
+export default async function calIndustryScore(industry: string) {
     let industryScore = SECTOR_VOLATILITY[industry]
     let maxIndustryScore = Math.max(SECTOR_VOLATILITY.values())
     let minIndustryScore = Math.max(SECTOR_VOLATILITY.values())

@@ -61,9 +61,9 @@ const operatingProfitMargin = async (req: NextApiRequest, res: NextApiResponse<D
     return operatingEfficiency
 }
 
-const bizAggregatedScore = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-
-    let { industry } = req.body
+export default async function bizAggregatedScore(industry: string, sales: number, otherIncome: number,
+    costOfGoodsSold: number, operatingExp: number, interestExp: number, currentAssets: number,
+    currentLiabilities: number, inventory: number, longTermLiabilities: number) {
 
     let NETPROFIT_WEIGHT = 0
     let QUICKRATIO_WEIGHT = 0
