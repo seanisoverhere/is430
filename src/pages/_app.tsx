@@ -58,14 +58,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <CenterContainer>
         <MobileContainer>
           <ContentContainer>
-            {router.pathname !== "/login" && (
+            {router.pathname !== "/login" && router.pathname !== "/signup" && (
               <Header>
                 XBB SG <SettingOutlined style={{ fontSize: "1.25rem" }} />
               </Header>
             )}
             <Component {...pageProps} />
           </ContentContainer>
-          {router.pathname !== "/login" && (
+          {router.pathname !== "/login" && router.pathname !== "/signup" && (
             <NavContainer>
               <StyledTabBar onChange={(val) => router.push(val)}>
                 {tabs.map((item) => (
