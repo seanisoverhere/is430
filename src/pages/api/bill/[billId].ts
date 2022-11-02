@@ -12,7 +12,7 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     if (req.method === "GET") {
-        return await retrieveAllLoans(req, res);
+        return await retrieveBills(req, res);
     }
 
     return res
@@ -20,7 +20,7 @@ export default async function handler(
         .json({ message: "Method not allowed", success: false });
 }
 
-const retrieveAllLoans = async (
+const retrieveBills = async (
     req: NextApiRequest,
     res: NextApiResponse
 ) => {

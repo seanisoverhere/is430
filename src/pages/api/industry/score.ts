@@ -1,5 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
-
 //these can be inserted into db instead
 const SECTOR_VOLATILITY: any = {
     basicMaterial: -0.0024,

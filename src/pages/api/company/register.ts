@@ -24,7 +24,7 @@ const signup = async (
     req: NextApiRequest,
     res: NextApiResponse
 ) => {
-    let { email, password } = req.body
+    let { email, password, companyName, uenNo } = req.body
 
     if (!email || !password) {
         return res.json({ result: "Email or Password required" })
@@ -46,7 +46,9 @@ const signup = async (
     data = await prisma.business.create({
         data: {
             email: email,
-            password: password
+            password: password,
+            companyName: companyName,
+            uenNo: uenNo
         }
     })
 
