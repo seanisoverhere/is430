@@ -1,12 +1,12 @@
 import React from "react";
 import { PageTitle } from "@/utils/styles";
 
-const Payments = () => {
+const Profile = () => {
   return (
     <>
-      <PageTitle>Payments</PageTitle>
+      <PageTitle>Profile</PageTitle>
     </>
   );
 };
 
-export default Payments;
+export default Profile;
