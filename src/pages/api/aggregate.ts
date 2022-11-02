@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bizAggregatedScore from "./company/finhealth";
 import calIndustryScore from "./industry/score";
+import { prisma } from "@/lib/prisma";
 
 const COMPANY_HEALTH_WEIGHT = 0.8;
 const INDUSTRY_WEIGHT = 0.2;
@@ -49,19 +50,22 @@ const scoreAggregate = async (
         longTermLiabilities
     );
     const companyFinHealthFactor = COMPANY_HEALTH_WEIGHT * companyFinHealthScore;
+    console.log(companyFinHealthFactor)
 
     const industryOutlookScore = await calIndustryScore(industry);
     const industryOutlookFactor = INDUSTRY_WEIGHT * industryOutlookScore;
+    console.log(industryOutlookFactor)
 
     const totalWeight = COMPANY_HEALTH_WEIGHT + INDUSTRY_WEIGHT
-
+    console.log(totalWeight)
     //this will give us from 0 - 1, higher number = higher credit worthiness
     //we need to define 0 - 1, what is RAG
-    const weightedScore = (companyFinHealthFactor + industryOutlookFactor) / totalWeight
+    const weightedScore = (companyFinHealthFactor + industryOutlookFactor) / (totalWeight * 100)
+    console.log(Number(weightedScore))
 
-    await prisma?.business.update({
+    await prisma.business.update({
         where: {
-            uuid: uuid,
+            uuid: Number(uuid),
         },
         data: {
             aggScore: weightedScore,
