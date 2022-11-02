@@ -13,6 +13,7 @@ type FormInputProps = {
   inputText: string;
   isRequired?: boolean;
   name: string;
+  type: string;
   register: UseFormRegister<FieldValues>;
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
 };
@@ -21,6 +22,7 @@ const FormInput = ({
   inputText,
   isRequired,
   name,
+  type,
   register,
   errors,
 }: FormInputProps) => (
@@ -31,7 +33,7 @@ const FormInput = ({
     </TextField>
     <StyledInput
       {...register(name, { required: isRequired })}
-      type="text"
+      type={type}
       $hasError={!!errors[name]}
     />
     {errors[name] && (
