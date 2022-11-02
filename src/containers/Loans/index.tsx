@@ -38,7 +38,6 @@ const Loans = () => {
   const submitLoan = () => [console.log(Number(amountInput))];
 
   const handleOnChange = (value: any) => {
-    console.log(value);
     setUen(value);
   };
 

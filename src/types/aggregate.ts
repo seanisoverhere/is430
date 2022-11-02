@@ -5,8 +5,9 @@ export type IAggregateScore = {
   costOfGoodsSold: number;
   operatingExp: number;
   interestExp: number;
-  currentAssests: number;
+  currentAssets: number;
   currentLiabilities: number;
   inventory: number;
   longTermLiabilities: number;
+  uuid: number
 };

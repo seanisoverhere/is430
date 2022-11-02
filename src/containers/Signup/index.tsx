@@ -19,7 +19,9 @@ import {
 import { StyledButton } from "@/utils/styles";
 import { message, Col, Space } from "antd";
 import useSignup from "@/hooks/api/useSignup";
+import useLoan from "@/hooks/api/useLoans";
 import { industries } from "@/utils/constants/industries";
+import { useRouter } from "next/router";
 
 const { Option } = StyledSelect;
 
@@ -44,7 +46,8 @@ const Signup = () => {
   const [password, setPassword] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
   const [uenNo, setUenNo] = useState<string>("");
-  const [uuid, setUuid] = useState<string>("");
+
+  const [industry, setIndustry] = useState<string>("");
   const [isFirstDisabled, setIsFirstDisabled] = useState<boolean>(true);
   const {
     handleSubmit,
@@ -53,8 +56,44 @@ const Signup = () => {
     formState: { errors },
   } = useForm({ mode: "all" });
 
-  const { signUp } = useSignup();
-  const onSubmit = (data: any) => console.log(data);
+  const { signUp, uuid } = useSignup();
+  const { getAggregatedScore, isSuccess } = useLoan();
+  const router = useRouter();
+
+  const onSubmit = async (data: any) => {
+    const {
+      sales,
+      otherIncome,
+      costOfGoodsSold,
+      operatingExp,
+      interestExp,
+      currentAssets,
+      currentLiabilities,
+      inventory,
+      longTermLiabilities,
+    } = data;
+
+    const dataToPost = {
+      industry,
+      sales: Number(sales),
+      otherIncome: Number(otherIncome),
+      costOfGoodsSold: Number(costOfGoodsSold),
+      operatingExp: Number(operatingExp),
+      interestExp: Number(interestExp),
+      currentAssets: Number(currentAssets),
+      currentLiabilities: Number(currentLiabilities),
+      inventory: Number(inventory),
+      longTermLiabilities: Number(longTermLiabilities),
+      uuid,
+    };
+
+    await getAggregatedScore(dataToPost);
+
+    if (isSuccess) {
+      message.success("Successfully registered!");
+      router.push("/");
+    }
+  };
 
   useEffect(() => {
     const watchAll = watch();
@@ -77,16 +116,12 @@ const Signup = () => {
     setCurrent(current + 1);
 
     if (current === 1) {
-      const data: any = await signUp({
+      await signUp({
         email,
         password,
         companyName,
         uenNo,
       });
-
-      if (data) {
-        setUuid(data.uuid);
-      }
     }
   };
 
@@ -94,9 +129,13 @@ const Signup = () => {
     setCurrent(current - 1);
   };
 
+  const handleOnChange = (value: any) => {
+    setIndustry(value);
+  };
+
   useEffect(() => {
     console.log(uuid);
-  }, [[uuid]]);
+  }, [uuid]);
 
   return (
     <>
@@ -128,9 +167,7 @@ const Signup = () => {
 
             {current === items.length - 1 && (
               <Col span={11}>
-                <StyledButton
-                  onClick={() => message.success("Processing complete!")}
-                >
+                <StyledButton type="submit" onClick={handleSubmit(onSubmit)}>
                   Done
                 </StyledButton>
               </Col>
@@ -183,7 +220,7 @@ const Signup = () => {
               <StyledRow gutter={[24, 48]}>
                 <Col span={12}>
                   <InputText>Industry</InputText>
-                  <StyledSelect>
+                  <StyledSelect bordered={false} onChange={handleOnChange}>
                     {Object.entries(industries).map(([key, value]) => (
                       <Option key={key} value={key}>
                         {value}
@@ -203,9 +240,9 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="Other Income"
-                    inputText="otherIncome"
-                    type="string"
+                    name="otherIncome"
+                    inputText="Other Income"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
@@ -215,7 +252,7 @@ const Signup = () => {
                   <FormInput
                     name="costOfGoodsSold"
                     inputText="Cost of Goods Sold"
-                    type="string"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
@@ -225,7 +262,7 @@ const Signup = () => {
                   <FormInput
                     name="operatingExp"
                     inputText="Operating Expenses"
-                    type="string"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
@@ -235,7 +272,7 @@ const Signup = () => {
                   <FormInput
                     name="interestExp"
                     inputText="Interest Expenses"
-                    type="string"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
@@ -245,7 +282,7 @@ const Signup = () => {
                   <FormInput
                     name="currentAssets"
                     inputText="Current Assets"
-                    type="string"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
@@ -255,7 +292,7 @@ const Signup = () => {
                   <FormInput
                     name="currentLiabilities"
                     inputText="Current Liabilities"
-                    type="string"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
@@ -265,7 +302,7 @@ const Signup = () => {
                   <FormInput
                     name="inventory"
                     inputText="Inventory"
-                    type="string"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
@@ -275,7 +312,7 @@ const Signup = () => {
                   <FormInput
                     name="longTermLiabilities"
                     inputText="Long Term Liabilities"
-                    type="string"
+                    type="number"
                     register={register}
                     errors={errors}
                     isRequired
