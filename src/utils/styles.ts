@@ -55,3 +55,16 @@ export const StyledTabBar = styled(TabBar)`
     }
   }
 `;
+
+export const StyledButton = styled.button<{ $isDisabled: boolean }>`
+  all: unset;
+  text-align: center;
+  border-radius: 10px;
+  height: 40px;
+  width: 100%;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: ${({ $isDisabled }) => ($isDisabled ? "#ccc" : "#555")};
+  cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "pointer")};
+`;

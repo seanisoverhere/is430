@@ -24,3 +24,8 @@ export const StyledSpace = styled(Space)`
     width: 100%;
   }
 `;
+
+export const InstructionText = styled.div`
+  margin: 1rem 0 2rem;
+  font-size: 0.9rem;
+`;
