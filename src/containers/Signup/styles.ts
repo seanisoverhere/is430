@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Steps, Row } from "antd";
+import { Steps, Row, Select } from "antd";
 
 export const StepContainer = styled.div`
   margin: 3rem 0;
@@ -32,4 +32,30 @@ export const StyledRow = styled(Row)`
 
 export const FormContainer = styled.div`
   margin: 3rem 0;
+`;
+
+export const InputText = styled.div`
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 0.5rem;
+`;
+
+
+export const StyledSelect = styled(Select)`
+  && {
+    width: 100%;
+
+    .ant-select-selector {
+      border-color: #4c4c4c !important;
+      border-width: 0 0 1px !important;
+      background: transparent;
+      border-radius: 0;
+      height: 26.5px;
+      padding: 0;
+    }
+
+    .ant-select-arrow {
+      right: 0;
+    }
+  }
 `;

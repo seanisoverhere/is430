@@ -8,6 +8,8 @@ import {
   StyledSteps,
   StyledRow,
   FormContainer,
+  StyledSelect,
+  InputText,
 } from "./styles";
 import {
   BankOutlined,
@@ -17,6 +19,9 @@ import {
 import { StyledButton } from "@/utils/styles";
 import { message, Col, Space } from "antd";
 import useSignup from "@/hooks/api/useSignup";
+import { industries } from "@/utils/constants/industries";
+
+const { Option } = StyledSelect;
 
 const items = [
   {
@@ -177,9 +182,19 @@ const Signup = () => {
             {current === 2 && (
               <StyledRow gutter={[24, 48]}>
                 <Col span={12}>
+                  <InputText>Industry</InputText>
+                  <StyledSelect>
+                    {Object.entries(industries).map(([key, value]) => (
+                      <Option key={key} value={key}>
+                        {value}
+                      </Option>
+                    ))}
+                  </StyledSelect>
+                </Col>
+                <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="sales"
+                    inputText="Sales"
                     type="string"
                     register={register}
                     errors={errors}
@@ -188,8 +203,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="Other Income"
+                    inputText="otherIncome"
                     type="string"
                     register={register}
                     errors={errors}
@@ -198,8 +213,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="costOfGoodsSold"
+                    inputText="Cost of Goods Sold"
                     type="string"
                     register={register}
                     errors={errors}
@@ -208,8 +223,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="operatingExp"
+                    inputText="Operating Expenses"
                     type="string"
                     register={register}
                     errors={errors}
@@ -218,8 +233,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="interestExp"
+                    inputText="Interest Expenses"
                     type="string"
                     register={register}
                     errors={errors}
@@ -228,8 +243,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="currentAssets"
+                    inputText="Current Assets"
                     type="string"
                     register={register}
                     errors={errors}
@@ -238,8 +253,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="currentLiabilities"
+                    inputText="Current Liabilities"
                     type="string"
                     register={register}
                     errors={errors}
@@ -248,8 +263,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="inventory"
+                    inputText="Inventory"
                     type="string"
                     register={register}
                     errors={errors}
@@ -258,18 +273,8 @@ const Signup = () => {
                 </Col>
                 <Col span={12}>
                   <FormInput
-                    name="industry"
-                    inputText="Industry"
-                    type="string"
-                    register={register}
-                    errors={errors}
-                    isRequired
-                  />
-                </Col>
-                <Col span={12}>
-                  <FormInput
-                    name="industry"
-                    inputText="Industry"
+                    name="longTermLiabilities"
+                    inputText="Long Term Liabilities"
                     type="string"
                     register={register}
                     errors={errors}
