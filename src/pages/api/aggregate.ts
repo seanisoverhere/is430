@@ -21,9 +21,10 @@ const scoreAggregate = async (req: NextApiRequest, res: NextApiResponse<Data>) =
     const industryOutlookFactor = INDUSTRY_WEIGHT * industryOutlookScore
 
     const totalWeight = COMPANY_HEALTH_WEIGHT + INDUSTRY_WEIGHT
+
     //this will give us from 0 - 1, higher number = higher credit worthiness
     //we need to define 0 - 1, what is RAG
     const weightedScore = (companyFinHealthFactor + industryOutlookFactor) / totalWeight
 
-    return weightedScore
+    return res.json({ result: weightedScore })
 }

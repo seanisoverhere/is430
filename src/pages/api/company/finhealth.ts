@@ -26,35 +26,26 @@ const consumerStaplesWeight = {
 }
 
 //Profitability
-const netProfitMargin = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { industry, sales, otherIncome, costOfGoodsSold, operatingExp, interestExp } = req.body
+const netProfitMargin = (sales: number, otherIncome: number,
+    costOfGoodsSold: number, operatingExp: number, interestExp: number): number => {
 
     const revenue = sales + otherIncome
     const netIncome = revenue - costOfGoodsSold - operatingExp - interestExp
     const netProfit = (netIncome / revenue) * 100
 
-    return res.json({ result: netProfit });
+    return netProfit;
 }
 
 //Liquidity
-const getQuickRatio = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { currentAssets, currentLiabilities, inventory } = req.body
-    const quickRatio = (currentAssets - inventory) / currentLiabilities
-
-    return res.json({ result: quickRatio });
-}
+const getQuickRatio = (currentAssets: number, currentLiabilities: number,
+    inventory: number): number => (currentAssets - inventory) / currentLiabilities
 
 //Solvency
-const getDebtToEquityRatio = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { currentAssets, currentLiabilities, longTermLiabilities } = req.body
-    const debtToEquity = (currentLiabilities + longTermLiabilities) / currentAssets
-
-    return debtToEquity;
-}
+const getDebtToEquityRatio = (currentAssets: number, currentLiabilities: number,
+    longTermLiabilities: number): number => (currentLiabilities + longTermLiabilities) / currentAssets
 
 //Operating Efficiency
-const operatingProfitMargin = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { operatingExp, sales, otherIncome } = req.body
+const operatingProfitMargin = (operatingExp: number, sales: number, otherIncome: number): number => {
     const revenue = sales + otherIncome
     const operatingEfficiency = operatingExp / revenue
 
@@ -87,30 +78,20 @@ export default async function bizAggregatedScore(industry: string, sales: number
         OPERATINGPROFIT_WEIGHT = commonWeight.operatingProfit
     }
 
-    const netProfit = await netProfitMargin
-    const netProfitFactor = calculateFactor(netProfit, NETPROFIT_WEIGHT)
+    const netProfit = await netProfitMargin(sales, otherIncome, costOfGoodsSold, operatingExp, interestExp)
+    const netProfitFactor = netProfit * NETPROFIT_WEIGHT
 
-    const quickRatio = await getQuickRatio
-    const quickRatioFactor = calculateFactor(quickRatio, QUICKRATIO_WEIGHT)
+    const quickRatio = await getQuickRatio(currentAssets, currentLiabilities, inventory)
+    const quickRatioFactor = quickRatio * QUICKRATIO_WEIGHT
 
-    const debtToEquityRatio = await getDebtToEquityRatio
-    const debtToEquityRatioFactor = calculateFactor(debtToEquityRatio, DEBTTOEQUITY_WEIGHT)
+    const debtToEquityRatio = await getDebtToEquityRatio(currentAssets, currentLiabilities, longTermLiabilities)
+    const debtToEquityRatioFactor = debtToEquityRatio * DEBTTOEQUITY_WEIGHT
 
-    const operatingProfit = await operatingProfitMargin
-    const operatingProfitFactor = calculateFactor(operatingProfit, OPERATINGPROFIT_WEIGHT)
+    const operatingProfit = await operatingProfitMargin(operatingExp, sales, otherIncome)
+    const operatingProfitFactor = operatingProfit * OPERATINGPROFIT_WEIGHT
 
     const totalWeight = NETPROFIT_WEIGHT + QUICKRATIO_WEIGHT + DEBTTOEQUITY_WEIGHT + OPERATINGPROFIT_WEIGHT
     const weightedScore = (netProfitFactor + quickRatioFactor + debtToEquityRatioFactor + operatingProfitFactor) / totalWeight
 
     return weightedScore
-}
-
-const calculateFactor = (mtdResp: any, weight: number) => {
-    const beforeCal = mtdResp
-
-    let calResp = {
-        'result': (beforeCal as any).result
-    }
-
-    return weight * calResp.result
 }
