@@ -11,6 +11,9 @@ const xbbApi = apiSauce.create({
 const createWeightedScore = (data: IAggregateScore) =>
   xbbApi.post("/aggregate", data);
 
+const signUp = (data: any) => xbbApi.post("/company/register", data);
+
 export default {
+  signUp,
   createWeightedScore,
 };

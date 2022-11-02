@@ -16,6 +16,7 @@ import {
 } from "@ant-design/icons";
 import { StyledButton } from "@/utils/styles";
 import { message, Col, Space } from "antd";
+import useSignup from "@/hooks/api/useSignup";
 
 const items = [
   {
@@ -34,6 +35,11 @@ const items = [
 
 const Signup = () => {
   const [current, setCurrent] = useState<number>(0);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [companyName, setCompanyName] = useState<string>("");
+  const [uenNo, setUenNo] = useState<string>("");
+  const [uuid, setUuid] = useState<string>("");
   const [isFirstDisabled, setIsFirstDisabled] = useState<boolean>(true);
   const {
     handleSubmit,
@@ -42,12 +48,18 @@ const Signup = () => {
     formState: { errors },
   } = useForm({ mode: "all" });
 
+  const { signUp } = useSignup();
   const onSubmit = (data: any) => console.log(data);
 
   useEffect(() => {
     const watchAll = watch();
 
-    const { email, password } = watchAll;
+    const { email, password, companyName, uenNo } = watchAll;
+
+    setEmail(email);
+    setPassword(password);
+    setCompanyName(companyName);
+    setUenNo(uenNo);
 
     if (email && password) {
       setIsFirstDisabled(false);
@@ -56,13 +68,30 @@ const Signup = () => {
     }
   }, [watch()]);
 
-  const next = () => {
+  const next = async () => {
     setCurrent(current + 1);
+
+    if (current === 1) {
+      const data: any = await signUp({
+        email,
+        password,
+        companyName,
+        uenNo,
+      });
+
+      if (data) {
+        setUuid(data.uuid);
+      }
+    }
   };
 
   const prev = () => {
     setCurrent(current - 1);
   };
+
+  useEffect(() => {
+    console.log(uuid);
+  }, [[uuid]]);
 
   return (
     <>
@@ -105,24 +134,150 @@ const Signup = () => {
         </ButtonContainer>
         <FormContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Space direction="vertical" style={{ width: "100%" }} size={48}>
-              <FormInput
-                name="email"
-                inputText="Email"
-                type="string"
-                register={register}
-                errors={errors}
-                isRequired
-              />
-              <FormInput
-                name="password"
-                inputText="Password"
-                type="password"
-                register={register}
-                errors={errors}
-                isRequired
-              />
-            </Space>
+            {current === 0 && (
+              <Space direction="vertical" style={{ width: "100%" }} size={48}>
+                <FormInput
+                  name="email"
+                  inputText="Email"
+                  type="string"
+                  register={register}
+                  errors={errors}
+                  isRequired
+                />
+                <FormInput
+                  name="password"
+                  inputText="Password"
+                  type="password"
+                  register={register}
+                  errors={errors}
+                  isRequired
+                />
+              </Space>
+            )}
+            {current === 1 && (
+              <Space direction="vertical" style={{ width: "100%" }} size={48}>
+                <FormInput
+                  name="companyName"
+                  inputText="Company Name"
+                  type="string"
+                  register={register}
+                  errors={errors}
+                  isRequired
+                />
+                <FormInput
+                  name="uenNo"
+                  inputText="UEN"
+                  type="string"
+                  register={register}
+                  errors={errors}
+                  isRequired
+                />
+              </Space>
+            )}
+            {current === 2 && (
+              <StyledRow gutter={[24, 48]}>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormInput
+                    name="industry"
+                    inputText="Industry"
+                    type="string"
+                    register={register}
+                    errors={errors}
+                    isRequired
+                  />
+                </Col>
+              </StyledRow>
+            )}
           </form>
         </FormContainer>
       </StepContainer>
