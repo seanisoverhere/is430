@@ -8,45 +8,46 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DB_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model business {
   uuid        Int       @id @default(autoincrement())
-  email       String
-  password    String
-  companyName String
-  uenNo       String
-  aggScore    Decimal   @db.Decimal(10, 2)
+  email       String?
+  password    String?
+  companyName String?
+  uenNo       String?
+  aggScore    Decimal?  @db.Decimal(10, 2)
   payment     payment[]
 }
 
 model supplier {
   uuid        Int       @id @default(autoincrement())
-  email       String
-  password    String
-  companyName String
-  uenNo       String
+  email       String?
+  password    String?
+  companyName String?
+  uenNo       String?
   payment     payment[]
 }
 
 model payment {
   paymentId     Int            @id @default(autoincrement())
-  paymentDate   DateTime
-  dueDate       DateTime
-  totalAmount   Decimal
-  paymentStatus String
-  payer         business       @relation(fields: [payerId], references: [uuid])
-  payerId       Int
-  receiver      supplier       @relation(fields: [receiverId], references: [uuid])
-  receiverId    Int
+  paymentDate   DateTime?
+  dueDate       DateTime?
+  totalAmount   Decimal?
+  paymentStatus String?
+  payer         business?      @relation(fields: [payerId], references: [uuid])
+  payerId       Int?
+  receiver      supplier?      @relation(fields: [receiverId], references: [uuid])
+  receiverId    Int?
   paymentSplit  paymentSplit[]
 }
 
 model paymentSplit {
-  splitLoanId   Int      @id @default(autoincrement())
-  paymentDate   DateTime
-  paymentStatus String
-  paymentAmount Decimal
-  mainPayment   payment  @relation(fields: [mainPaymentId], references: [paymentId])
-  mainPaymentId Int
+  splitLoanId   Int       @id @default(autoincrement())
+  paymentDate   DateTime?
+  paymentStatus String?
+  paymentAmount Decimal?
+  mainPayment   payment?  @relation(fields: [mainPaymentId], references: [paymentId])
+  mainPaymentId Int?
 }
