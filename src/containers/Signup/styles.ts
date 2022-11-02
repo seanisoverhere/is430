@@ -27,4 +27,9 @@ export const ButtonContainer = styled.div`
 export const StyledRow = styled(Row)`
   && {
     width: 100%;
+  }
+`;
+
+export const FormContainer = styled.div`
+  margin: 3rem 0;
 `;
