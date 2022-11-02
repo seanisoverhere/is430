@@ -13,8 +13,9 @@ const SECTOR_VOLATILITY: any = {
 
 export default async function calIndustryScore(industry: string) {
     let industryScore = SECTOR_VOLATILITY[industry]
-    let maxIndustryScore = Math.max(SECTOR_VOLATILITY.values())
-    let minIndustryScore = Math.max(SECTOR_VOLATILITY.values())
+
+    const maxIndustryScore = Math.max.apply(null, Object.values(SECTOR_VOLATILITY))
+    const minIndustryScore = Math.min.apply(null, Object.values(SECTOR_VOLATILITY))
     let industryDelta = maxIndustryScore - industryScore
     let normalizedIndustryScore = industryDelta / (maxIndustryScore - minIndustryScore)
 
