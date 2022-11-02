@@ -7,7 +7,12 @@ import {
   ErrorText,
   HelperText,
   StyledCurrencyInput,
+  StyledRow,
+  StyledInput,
+  InputText,
+  StyledSelect,
 } from "./styles";
+import { Col } from "antd";
 
 const Loans = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
@@ -25,9 +30,21 @@ const Loans = () => {
     }
   };
 
+  const submitLoan = () => [console.log(Number(amountInput))];
+
   return (
     <>
       <PageTitle>Loans</PageTitle>
+      <StyledRow justify="space-between">
+        <Col span={11}>
+          <InputText>Supplier:</InputText>
+          <StyledSelect bordered={false} />
+        </Col>
+        <Col span={11}>
+          <InputText>UEN</InputText>
+          <StyledInput type="text" />
+        </Col>
+      </StyledRow>
       <CurrencyContainer>
         <HelperText>Please enter your loan amount</HelperText>
         <StyledCurrencyInput
@@ -46,7 +63,9 @@ const Loans = () => {
           </AlignError>
         )}
       </CurrencyContainer>
-      <StyledButton $isDisabled={isButtonDisabled}>Submit Loan</StyledButton>
+      <StyledButton $isDisabled={isButtonDisabled} onClick={submitLoan}>
+        Submit Loan
+      </StyledButton>
     </>
   );
 };
