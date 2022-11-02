@@ -10,6 +10,7 @@ import {
   FormContainer,
   StyledSelect,
   InputText,
+  InstructionText,
 } from "./styles";
 import {
   BankOutlined,
@@ -141,9 +142,16 @@ const Signup = () => {
     <>
       <PageTitle>Sign up</PageTitle>
       <StepContainer>
+        <InstructionText>
+          Please provide your company and financial details with us as part of
+          our <strong>KYC process</strong>. We will assign a{" "}
+          <strong>credit rating score</strong> to you based on your financial
+          information.
+        </InstructionText>
         <StyledSteps
           current={current}
           labelPlacement="vertical"
+          // @ts-ignore
           items={items}
         />
         <ButtonContainer>

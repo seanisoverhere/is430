@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Steps, Row, Select } from "antd";
 
 export const StepContainer = styled.div`
-  margin: 3rem 0;
+  margin: 2rem 0;
   position: relative;
   height: 100vh;
 `;
@@ -20,7 +20,7 @@ export const StyledSteps = styled(Steps)`
 
 export const ButtonContainer = styled.div`
   position: absolute;
-  bottom: 15%;
+  bottom: 12%;
   width: 100%;
 `;
 
@@ -40,7 +40,6 @@ export const InputText = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-
 export const StyledSelect = styled(Select)`
   && {
     width: 100%;
@@ -58,4 +57,9 @@ export const StyledSelect = styled(Select)`
       right: 0;
     }
   }
+`;
+
+export const InstructionText = styled.div`
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
 `;
