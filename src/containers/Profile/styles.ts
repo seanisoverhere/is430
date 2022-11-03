@@ -6,7 +6,7 @@ export const StyledRow = styled(Row)`
   && {
     width: 100%;
     overflow: scroll;
-    max-height: 500px;
+    max-height: 590px;
     position: relative;
   }
 `;
@@ -35,11 +35,6 @@ export const InstructionText = styled.div`
 
 export const FormContainer = styled.div`
   margin: 1rem 0;
-`;
-
-export const BottomStyledButton = styled(StyledButton)`
-  position: absolute;
-  bottom: -12%;
 `;
 
 export const Container = styled.div`
