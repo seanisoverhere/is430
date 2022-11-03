@@ -38,28 +38,29 @@ const retrieveAllLoans = async (
     AND ps.paymentStatus = 'P' 
     AND payerId = ${uuid};`
 
-    const currenthMthBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment
-    FROM paymentSplit ps, payment p
+    const currenthMthBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate
+    FROM supplier sup, paymentSplit ps, payment p
     LEFT JOIN
     (SELECT t1.paymentId, totalNoOfPayment, totalNoOfPaidPayment
     FROM
     (SELECT p.paymentId, COUNT(*)  as totalNoOfPayment FROM payment p, paymentSplit ps 
     WHERE p.paymentId = ps.mainPaymentId
-    AND p.payerId = ${uuid}
+    AND p.payerId = 17
     GROUP BY p.paymentId) as t1
     LEFT JOIN
     (SELECT p.paymentId, p.totalAmount, COUNT(ps.paymentStatus) as totalNoOfPaidPayment FROM payment p
     LEFT JOIN paymentSplit ps 
     ON p.paymentId = ps.mainPaymentId
     AND ps.paymentStatus = 'P'
-    AND p.payerId = ${uuid}
+    AND p.payerId = 17
     GROUP BY p.paymentId) as t2
     ON t1.paymentId = t2.paymentId) as t3
     ON p.paymentId = t3.paymentId
-    WHERE p.paymentId = ps.mainPaymentId
+    WHERE p.paymentId = ps.mainPaymentId 
+    AND sup.uuid = p.receiverId
     AND MONTH(ps.paymentDate) = MONTH(CURDATE())
     AND ps.paymentStatus = 'IP' 
-    AND p.payerId = ${uuid}
+    AND p.payerId = 17
     GROUP BY p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment;`
 
     currenthMthBill.forEach((bill: any) => {
