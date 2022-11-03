@@ -11,6 +11,7 @@ import {
 import usePayment from "@/hooks/api/usePayment";
 import { useRouter } from "next/router";
 import { UserOutlined } from "@ant-design/icons";
+import { InstructionText } from "../Signup/styles";
 
 const Payments = () => {
   const { getBill, bill } = usePayment();
@@ -27,7 +28,7 @@ const Payments = () => {
   }, [router.isReady]);
 
   useEffect(() => {
-    if (bill) {
+    if (bill?.individualBills.length > 0) {
       setCompany(bill.individualBills[0].companyName);
       setUenNo(bill.individualBills[0].uenNo);
     }
@@ -38,11 +39,15 @@ const Payments = () => {
       <PageTitle>Payments</PageTitle>
       <CardContainer>
         <StyledSpace direction="vertical" size="large">
-          {bill && (
+          {bill?.individualBills.length > 0 ? (
             <CompanyCard>
               <StyledAvatar size={48} icon={<UserOutlined />} />
-              {company} -  <UenText>({uenNo})</UenText>
+              {company} - <UenText>({uenNo})</UenText>
             </CompanyCard>
+          ) : (
+            <InstructionText>
+              Please select your bill from the <strong>Home Page</strong>
+            </InstructionText>
           )}
         </StyledSpace>
       </CardContainer>
