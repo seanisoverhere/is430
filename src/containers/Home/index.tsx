@@ -65,7 +65,7 @@ const Home = () => {
     }
   }, [totalLoans]);
 
-  const numCards = "500px";
+  const numCards = "450px";
 
   return (
     <>
@@ -80,27 +80,30 @@ const Home = () => {
           />
         </ChartContainer>
       )}
-      {latePayments?.length > 0 && (
-        <StyledDivider>Overdue Payments</StyledDivider>
-      )}
-      {latePayments?.length > 0 &&
-        latePayments.map((loan: any) => (
-          <RepaymentCard
-            key={loan.mainPaymentId}
-            title={loan.companyName}
-            uen={loan.uenNo}
-            cost={Number(loan.paymentAmount)}
-            dueDate={loan.dueDate}
-            totalPayment={loan.totalNoOfPayment}
-            totalPaidPayment={loan.totalNoOfPaidPayment}
-            isLate
-          />
-        ))}
-      <StyledDivider>
-        Upcoming Payments for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
-        {DateTime.local().year}
-      </StyledDivider>
       <LoanContainer style={{ maxHeight: `calc(100vh - ${numCards})` }}>
+        {latePayments?.length > 0 && (
+          <StyledDivider>Overdue Payments</StyledDivider>
+        )}
+        <StyledSpace direction="vertical" size="large">
+          {latePayments?.length > 0 &&
+            latePayments.map((loan: any) => (
+              <RepaymentCard
+                key={loan.mainPaymentId}
+                title={loan.companyName}
+                uen={loan.uenNo}
+                cost={Number(loan.paymentAmount)}
+                dueDate={loan.dueDate}
+                totalPayment={loan.totalNoOfPayment}
+                totalPaidPayment={loan.totalNoOfPaidPayment}
+                isLate
+              />
+            ))}
+        </StyledSpace>
+        <StyledDivider>
+          Upcoming Payments for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
+          {DateTime.local().year}
+        </StyledDivider>
+
         <StyledSpace direction="vertical" size="large">
           {loans.length > 0 &&
             loans.map((loan: any) => (
