@@ -12,6 +12,7 @@ const useSignup = () => {
     const response: ApiResponse<any> = await xbbApi.signUp(data);
     if (response.ok) {
       setUuid(response.data.uuid);
+      localStorage.setItem("uuid", response.data.uuid);
     }
     setIsLoading(false);
   };
