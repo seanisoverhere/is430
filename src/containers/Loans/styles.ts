@@ -93,3 +93,9 @@ export const StyledSelect = styled(Select)`
     }
   }
 `;
+
+export const RepaymentContainer = styled.div`
+  & {
+    margin: 2rem 0;
+  }
+`;

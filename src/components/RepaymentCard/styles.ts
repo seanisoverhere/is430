@@ -55,3 +55,7 @@ export const MakePayment = styled.div`
   color: #666;
   font-weight: 600;
 `;
+
+export const LateText = styled.div<{ $isLate?: boolean }>`
+  color: ${(props) => (props.$isLate ? "#f5222d" : "#666")};
+`;

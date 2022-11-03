@@ -56,7 +56,7 @@ export const StyledTabBar = styled(TabBar)`
   }
 `;
 
-export const StyledButton = styled.button<{ $isDisabled: boolean }>`
+export const StyledButton = styled.button<{ $isDisabled?: boolean }>`
   all: unset;
   text-align: center;
   border-radius: 10px;
