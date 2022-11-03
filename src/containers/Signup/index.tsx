@@ -58,7 +58,7 @@ const Signup = () => {
   } = useForm({ mode: "all" });
 
   const { signUp, uuid } = useSignup();
-  const { getAggregatedScore, isSuccess } = useLoan();
+  const { getAggregatedScore } = useLoan();
   const router = useRouter();
 
   const onSubmit = async (data: any) => {
@@ -89,11 +89,8 @@ const Signup = () => {
     };
 
     await getAggregatedScore(dataToPost);
-
-    if (isSuccess) {
-      message.success("Successfully registered!");
-      router.push("/");
-    }
+    message.success("Successfully registered!");
+    router.push("/");
   };
 
   useEffect(() => {
