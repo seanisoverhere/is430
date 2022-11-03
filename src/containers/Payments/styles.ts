@@ -11,6 +11,11 @@ export const StyledSpace = styled(Space)`
   }
 `;
 
+export const ScrollableCard = styled.div`
+  overflow: scroll;
+  max-height: 650px;
+`;
+
 export const StyledCard = styled(Card)`
   && {
     border-radius: 15px;
