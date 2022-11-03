@@ -13,6 +13,7 @@ import usePayment from "@/hooks/api/usePayment";
 
 const Home = () => {
   const [hydrated, setHydrated] = useState<boolean>(false);
+  const [data, setData] = useState<any>();
   const {
     getBill,
     getTotalLoans,
@@ -33,34 +34,44 @@ const Home = () => {
   }, [hydrated]);
 
   useEffect(() => {
-    console.log(totalLoans);
+    if (totalLoans?.totalAmt.length > 0) {
+      setData({
+        right: [
+          {
+            value: `${Number(totalLoans.totalAmtPaid[0].totalAmtPaid).toFixed(
+              2
+            )}`,
+            displayValue: `$ ${Number(
+              totalLoans.totalAmtPaid[0].totalAmtPaid
+            ).toFixed(2)}`,
+            text: "Loans Paid",
+            color: "#1ccf8d",
+          },
+        ],
+        left: [
+          {
+            value: `${Number(
+              totalLoans.totalAmt[0].totalAmt -
+                totalLoans.totalAmtPaid[0].totalAmtPaid
+            ).toFixed(2)}`,
+            displayValue: `$ ${Number(
+              totalLoans.totalAmt[0].totalAmt -
+                totalLoans.totalAmtPaid[0].totalAmtPaid
+            ).toFixed(2)}`,
+            text: "Remaining",
+            color: "#d1d1d1",
+          },
+        ],
+      });
+    }
   }, [totalLoans]);
-
-  const data = {
-    right: [
-      {
-        value: 13422.42,
-        displayValue: "$ 13422.42",
-        text: "Loans Paid",
-        color: "#1ccf8d",
-      },
-    ],
-    left: [
-      {
-        value: 24612.11,
-        displayValue: "$ 24612.11",
-        text: "Remaining",
-        color: "#d1d1d1",
-      },
-    ],
-  };
 
   const numCards = "500px";
 
   return (
     <>
       <PageTitle>Your Repayments</PageTitle>
-      {hydrated && (
+      {hydrated && data && (
         <ChartContainer>
           <HalfPieChart
             name="loanStatus"

@@ -3,8 +3,8 @@ import xbbApi from "@/services/api/xbbApi";
 import { ApiResponse } from "apisauce";
 
 const usePayment = () => {
-  const [bill, setBill] = useState<number>(0);
-  const [totalLoans, setTotalLoans] = useState<number>(0);
+  const [bill, setBill] = useState<any>();
+  const [totalLoans, setTotalLoans] = useState<any>();
   const [isBillLoading, setIsBillLoading] = useState<boolean>(false);
   const [isTotalLoansLoading, setIsTotalLoansLoading] =
     useState<boolean>(false);
