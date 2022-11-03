@@ -17,6 +17,9 @@ import { Col } from "antd";
 import { supplierOptions } from "@/utils/constants/suppliers";
 import { monthsSplit } from "@/utils/constants/months";
 import { InstructionText } from "../Home/styles";
+import useLoans from "@/hooks/api/useLoans";
+import { message } from "antd";
+import { useRouter } from "next/router";
 
 const { Option } = StyledSelect;
 
@@ -24,8 +27,11 @@ const Loans = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const [amountInput, setAmountInput] = useState<number>(0);
   const [hasError, setHasError] = useState<boolean>(false);
-  const [uen, setUen] = useState<string>();
+  const [uen, setUen] = useState<string>("");
   const [repaymentMonth, setRepaymentMonth] = useState<number>();
+  const [companyName, setCompanyName] = useState<string>("");
+  const { getLoan } = useLoans();
+  const router = useRouter();
 
   const checkLoanLogic = (amount?: string) => {
     if (Number(amount) > 300000) {
@@ -38,10 +44,26 @@ const Loans = () => {
     }
   };
 
-  const submitLoan = () => [console.log(Number(amountInput))];
+  const submitLoan = async () => {
+    if (repaymentMonth && amountInput) {
+      const res = await getLoan({
+        companyName,
+        uenNo: uen,
+        repaymentPeriod: repaymentMonth,
+        paymentAmt: amountInput,
+        uuid: Number(localStorage.getItem("uuid")),
+      });
 
-  const handleOnChange = (value: any) => {
-    setUen(value);
+      if (res.data.success) {
+        message.success("Loan application successful!");
+        router.push("/");
+      }
+    }
+  };
+
+  const handleOnChange = (uen: any, option: any) => {
+    setUen(uen);
+    setCompanyName(option.children);
   };
 
   const handleMonthChange = (value: any) => {
@@ -60,7 +82,10 @@ const Loans = () => {
       <StyledRow justify="space-between">
         <Col span={11}>
           <InputText>Supplier:</InputText>
-          <StyledSelect bordered={false} onChange={handleOnChange}>
+          <StyledSelect
+            bordered={false}
+            onChange={(val, opt) => handleOnChange(val, opt)}
+          >
             {Object.entries(supplierOptions).map(([key, value]) => (
               <Option key={value} value={value}>
                 {key}

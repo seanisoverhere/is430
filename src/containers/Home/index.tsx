@@ -3,6 +3,7 @@ import { PageTitle } from "@/utils/styles";
 import { DateTime } from "luxon";
 import {
   ChartContainer,
+  InstructionText,
   LoanContainer,
   StyledDivider,
   StyledSpace,
@@ -13,7 +14,7 @@ import usePayment from "@/hooks/api/usePayment";
 
 const Home = () => {
   const [hydrated, setHydrated] = useState<boolean>(false);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<any>(null);
   const [loans, setLoans] = useState<any>([]);
   const [latePayments, setLatePayments] = useState<any>([]);
 
@@ -30,7 +31,7 @@ const Home = () => {
   }, [hydrated]);
 
   useEffect(() => {
-    if (totalLoans?.totalAmt.length > 0) {
+    if (totalLoans?.totalAmt[0].totalAmt) {
       setData({
         right: [
           {
@@ -70,7 +71,7 @@ const Home = () => {
   return (
     <>
       <PageTitle>Your Repayments</PageTitle>
-      {hydrated && data && (
+      {hydrated && data ? (
         <ChartContainer>
           <HalfPieChart
             name="loanStatus"
@@ -79,6 +80,8 @@ const Home = () => {
             fontStyle="Poppins"
           />
         </ChartContainer>
+      ) : (
+        <InstructionText>You have no loans yet :)</InstructionText>
       )}
       <LoanContainer style={{ maxHeight: `calc(100vh - ${numCards})` }}>
         {latePayments?.length > 0 && (
@@ -95,29 +98,35 @@ const Home = () => {
                 dueDate={loan.dueDate}
                 totalPayment={loan.totalNoOfPayment}
                 totalPaidPayment={loan.totalNoOfPaidPayment}
+                lateFee={Number(loan.lateFee)}
                 isLate
               />
             ))}
         </StyledSpace>
-        <StyledDivider>
-          Upcoming Payments for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
-          {DateTime.local().year}
-        </StyledDivider>
+        {data && (
+          <>
+            <StyledDivider>
+              Upcoming Payments for{" "}
+              {DateTime.local().plus({ month: 1 }).monthShort}{" "}
+              {DateTime.local().year}
+            </StyledDivider>
 
-        <StyledSpace direction="vertical" size="large">
-          {loans.length > 0 &&
-            loans.map((loan: any) => (
-              <RepaymentCard
-                key={loan.mainPaymentId}
-                title={loan.companyName}
-                uen={loan.uenNo}
-                cost={Number(loan.paymentAmount)}
-                dueDate={loan.dueDate}
-                totalPayment={loan.totalNoOfPayment}
-                totalPaidPayment={loan.totalNoOfPaidPayment}
-              />
-            ))}
-        </StyledSpace>
+            <StyledSpace direction="vertical" size="large">
+              {loans.length > 0 &&
+                loans.map((loan: any) => (
+                  <RepaymentCard
+                    key={loan.mainPaymentId}
+                    title={loan.companyName}
+                    uen={loan.uenNo}
+                    cost={Number(loan.paymentAmount)}
+                    dueDate={loan.dueDate}
+                    totalPayment={loan.totalNoOfPayment}
+                    totalPaidPayment={loan.totalNoOfPaidPayment}
+                  />
+                ))}
+            </StyledSpace>
+          </>
+        )}
       </LoanContainer>
     </>
   );

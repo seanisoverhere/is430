@@ -21,6 +21,7 @@ type RepaymentCardProps = {
   totalPayment: number;
   totalPaidPayment: number;
   isLate?: boolean;
+  lateFee?: number;
 };
 
 const RepaymentCard = ({
@@ -31,6 +32,7 @@ const RepaymentCard = ({
   totalPayment,
   totalPaidPayment,
   isLate,
+  lateFee,
 }: RepaymentCardProps) => {
   return (
     <StyledCard
@@ -52,7 +54,11 @@ const RepaymentCard = ({
           <InstallmentText>
             Installment {totalPaidPayment} of {totalPayment}
           </InstallmentText>
-          {isLate && <LateText $isLate={isLate}>Late Fees: $123,45</LateText>}
+          {isLate && (
+            <LateText $isLate={isLate}>
+              Late Fees: ${lateFee?.toFixed(2).toLocaleString()}
+            </LateText>
+          )}
 
           <MakePayment>
             <CreditCardOutlined
