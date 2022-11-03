@@ -58,6 +58,7 @@ const retrieveAllLoans = async (
     ON p.paymentId = t3.paymentId
     WHERE p.paymentId = ps.mainPaymentId 
     AND sup.uuid = p.receiverId
+    AND YEAR(ps.paymentDate) = YEAR(CURDATE())
     AND ps.paymentDate < CURDATE()
     AND ps.paymentStatus = 'IP' 
     AND p.payerId = ${uuid}
@@ -75,23 +76,24 @@ const retrieveAllLoans = async (
     FROM
     (SELECT p.paymentId, COUNT(*)  as totalNoOfPayment FROM payment p, paymentSplit ps 
     WHERE p.paymentId = ps.mainPaymentId
-    AND p.payerId = 17
+    AND p.payerId = ${uuid} 
     GROUP BY p.paymentId) as t1
     LEFT JOIN
     (SELECT p.paymentId, p.totalAmount, COUNT(ps.paymentStatus) as totalNoOfPaidPayment FROM payment p
     LEFT JOIN paymentSplit ps 
     ON p.paymentId = ps.mainPaymentId
     AND ps.paymentStatus = 'P'
-    AND p.payerId = 17
+    AND p.payerId = ${uuid}
     GROUP BY p.paymentId) as t2
     ON t1.paymentId = t2.paymentId) as t3
     ON ps.mainPaymentId = t3.paymentId
-    WHERE MONTH(ps.paymentDate) = MONTH(CURDATE())
+    WHERE p.paymentId = ps.mainPaymentId
+    AND MONTH(ps.paymentDate) = MONTH(CURDATE())
+    AND YEAR(ps.paymentDate) = YEAR(CURDATE())
     AND ps.paymentStatus = 'IP' 
-    AND p.payerId = 17
-    GROUP BY p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo;`
-
-
+    AND p.payerId = ${uuid}
+    GROUP BY p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, 
+    ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo;`
 
     currenthMthBill.forEach((bill: any) => {
         bill.totalNoOfPayment = Number(bill.totalNoOfPayment);
