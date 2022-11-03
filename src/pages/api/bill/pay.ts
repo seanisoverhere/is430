@@ -60,14 +60,15 @@ const pay = async (
         },
     })
 
-    const remainingPaymentAmt = paymentAmt
 
     for (let i = 0; i < repaymentPeriod; i++) {
+        console.log(repaymentPercent[repaymentPeriod][i])
+        
         await prisma.paymentSplit.create({
             data: {
                 paymentDate: (DateTime.local().plus({ month: i })).toJSDate(),
                 paymentStatus: 'IP',
-                paymentAmount: remainingPaymentAmt * repaymentPercent[repaymentPeriod][i],
+                paymentAmount: paymentAmt * repaymentPercent[repaymentPeriod][i],
                 mainPaymentId: data.paymentId
             }
         })
