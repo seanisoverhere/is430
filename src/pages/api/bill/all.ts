@@ -50,7 +50,7 @@ const retrieveAllLoans = async (
     AND ps.paymentStatus = 'P' 
     AND payerId = ${uuid};`
 
-    const latePaymentBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, (ps.paymentAmount * SUM(1+ ${lateFeePercent})) as paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo
+    const latePaymentBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, (ps.paymentAmount * SUM(1+ ${lateFeePercent})) as paymentAmount, (ps.paymentAmount * ${lateFeePercent}) as lateFee, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo
     FROM supplier sup, paymentSplit ps, payment p
     LEFT JOIN
     (SELECT t1.paymentId, totalNoOfPayment, totalNoOfPaidPayment
