@@ -1,5 +1,5 @@
 import apiSauce from "apisauce";
-import { IAggregateScore } from "@/types/aggregate";
+import { IAggregateScore, ICompanyInfo } from "@/types/aggregate";
 import { ISignupDetails, IUserDetails } from "@/types/signup";
 import { IMakeLoan } from "@/types/payment";
 
@@ -19,9 +19,12 @@ const logIn = (data: IUserDetails) => xbbApi.post("/company/login", data);
 const getLoan = (data: IMakeLoan) => xbbApi.post("/bill/pay", data);
 const payBill = (splitLoanId: number) =>
   xbbApi.post("/bill/individual/pay", splitLoanId);
+const getCompanyInfo = (data: ICompanyInfo) =>
+  xbbApi.post("/company/score", data);
 
 export default {
   getBills,
+  getCompanyInfo,
   getTotalLoans,
   signUp,
   payBill,

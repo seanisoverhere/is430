@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { Row } from "antd";
-import { StyledButton } from "@/utils/styles";
 
 export const StyledRow = styled(Row)`
   && {
     width: 100%;
     overflow: scroll;
-    max-height: 590px;
+    max-height: 450px;
     position: relative;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -39,4 +39,13 @@ export const FormContainer = styled.div`
 
 export const Container = styled.div`
   position: relative;
+`;
+
+export const ScoreText = styled.div`
+  font-weight: 600;
+  margin-top: 1rem;
+`;
+
+export const Color = styled.span<{ $color: string }>`
+  color: ${({ $color }) => $color};
 `;

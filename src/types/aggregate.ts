@@ -9,5 +9,9 @@ export type IAggregateScore = {
   currentLiabilities: number;
   inventory: number;
   longTermLiabilities: number;
-  uuid: number
+  uuid: number;
+};
+
+export type ICompanyInfo = {
+  uuid: number;
 };
