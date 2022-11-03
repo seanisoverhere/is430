@@ -1,14 +1,6 @@
 import React from "react";
 import { PageTitle } from "@/utils/styles";
-import {
-  FlexContainer,
-  CompanyName,
-  CompanyUen,
-  InstructionText,
-  FormContainer,
-  StyledRow,
-  Container,
-} from "./styles";
+import { InstructionText, FormContainer, StyledRow, Container } from "./styles";
 import { Col } from "antd";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/FormInput";
@@ -25,10 +17,6 @@ const Profile = () => {
   return (
     <Container>
       <PageTitle>Profile</PageTitle>
-      <FlexContainer>
-        <CompanyName>Dog PTE LTD</CompanyName>
-        <CompanyUen>UEN: ABC2423</CompanyUen>
-      </FlexContainer>
       <InstructionText>
         We will prompt you <strong>quarterly</strong> to update your company
         financial health with us for a{" "}

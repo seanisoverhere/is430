@@ -17,6 +17,7 @@ const Home = () => {
   const [data, setData] = useState<any>(null);
   const [loans, setLoans] = useState<any>([]);
   const [latePayments, setLatePayments] = useState<any>([]);
+  const [activeBills, setActiveBills] = useState<any>([]);
 
   const { getTotalLoans, totalLoans } = usePayment();
 
@@ -63,6 +64,7 @@ const Home = () => {
 
       setLoans(totalLoans.currentMonthBill);
       setLatePayments(totalLoans.latePaymentBill);
+      setActiveBills(totalLoans.activeBills)
     }
   }, [totalLoans]);
 
@@ -117,6 +119,24 @@ const Home = () => {
                 loans.map((loan: any, i: number) => (
                   <RepaymentCard
                     key={`${loan.mainPaymentId}_${i}`}
+                    title={loan.companyName}
+                    uen={loan.uenNo}
+                    cost={Number(loan.paymentAmount)}
+                    dueDate={loan.dueDate}
+                    totalPayment={loan.totalNoOfPayment}
+                    totalPaidPayment={loan.totalNoOfPaidPayment}
+                    paymentId={loan.paymentId}
+                  />
+                ))}
+            </StyledSpace>
+
+            <StyledDivider>Active Loans</StyledDivider>
+
+            <StyledSpace direction="vertical" size="large">
+              {activeBills.length > 0 &&
+                activeBills.map((loan: any, i: number) => (
+                  <RepaymentCard
+                    key={`${loan.mainPaymentId}__${i}`}
                     title={loan.companyName}
                     uen={loan.uenNo}
                     cost={Number(loan.paymentAmount)}

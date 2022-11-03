@@ -51,9 +51,11 @@ const RepaymentCard = ({
       onClick={() => handleReroute()}
       title={`${title} (${uen})`}
       extra={
-        <LateText $isLate={isLate}>
-          ${cost.toFixed(2).toLocaleString()}
-        </LateText>
+        cost ? (
+          <LateText $isLate={isLate}>
+            ${cost.toFixed(2).toLocaleString()}
+          </LateText>
+        ) : null
       }
     >
       <FlexContainer>

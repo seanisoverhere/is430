@@ -68,7 +68,6 @@ const Payments = () => {
   const handleBillPayment = async () => {
     if (currentPaymentId) {
       const res = await payBill(Number(currentPaymentId));
-      console.log(res);
       if (res.success) {
         message.success("Payment successful!");
         router.push("/");
