@@ -18,7 +18,7 @@ const Home = () => {
   const [loans, setLoans] = useState<any>([]);
   const [latePayments, setLatePayments] = useState<any>([]);
 
-  const { getBill, getTotalLoans, bill, totalLoans } = usePayment();
+  const { getTotalLoans, totalLoans } = usePayment();
 
   useEffect(() => {
     setHydrated(true);
@@ -89,9 +89,9 @@ const Home = () => {
         )}
         <StyledSpace direction="vertical" size="large">
           {latePayments?.length > 0 &&
-            latePayments.map((loan: any) => (
+            latePayments.map((loan: any, i: number) => (
               <RepaymentCard
-                key={loan.mainPaymentId}
+                key={`${loan.mainPaymentId}_late_${i}`}
                 title={loan.companyName}
                 uen={loan.uenNo}
                 cost={Number(loan.paymentAmount)}
@@ -99,6 +99,7 @@ const Home = () => {
                 totalPayment={loan.totalNoOfPayment}
                 totalPaidPayment={loan.totalNoOfPaidPayment}
                 lateFee={Number(loan.lateFee)}
+                paymentId={loan.paymentId}
                 isLate
               />
             ))}
@@ -113,15 +114,16 @@ const Home = () => {
 
             <StyledSpace direction="vertical" size="large">
               {loans.length > 0 &&
-                loans.map((loan: any) => (
+                loans.map((loan: any, i: number) => (
                   <RepaymentCard
-                    key={loan.mainPaymentId}
+                    key={`${loan.mainPaymentId}_${i}`}
                     title={loan.companyName}
                     uen={loan.uenNo}
                     cost={Number(loan.paymentAmount)}
                     dueDate={loan.dueDate}
                     totalPayment={loan.totalNoOfPayment}
                     totalPaidPayment={loan.totalNoOfPaidPayment}
+                    paymentId={loan.paymentId}
                   />
                 ))}
             </StyledSpace>
