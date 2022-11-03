@@ -26,7 +26,7 @@ const retrieveBills = async (
 ) => {
     let { billId } = req.query
 
-    const splitBills = await prisma.$queryRaw`SELECT p.paymentId, p.totalAmount, ps.paymentAmount, ps.paymentDate, ps.paymentStatus, sup.companyName, sup.uenNo
+    const splitBills = await prisma.$queryRaw`SELECT p.paymentId, p.totalAmount, ps.splitLoanId, ps.paymentAmount, ps.paymentDate, ps.paymentStatus, sup.companyName, sup.uenNo
     FROM payment p, paymentSplit ps, supplier sup
     WHERE p.paymentId = ps.mainPaymentId
     AND p.receiverId = sup.uuid
