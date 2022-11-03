@@ -38,7 +38,7 @@ const retrieveAllLoans = async (
     AND ps.paymentStatus = 'P' 
     AND payerId = ${uuid};`
 
-    const currenthMthBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate
+    const currenthMthBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.companyName, sup.uenNo, sup.uuid, p.dueDate
     FROM supplier sup, paymentSplit ps, payment p
     LEFT JOIN
     (SELECT t1.paymentId, totalNoOfPayment, totalNoOfPaidPayment
