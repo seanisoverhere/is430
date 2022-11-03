@@ -20,24 +20,25 @@ export default async function handler(
         .json({ message: "Method not allowed", success: false });
 }
 
+
 const retrieveAllLoans = async (
     req: NextApiRequest,
     res: NextApiResponse
 ) => {
     let { uuid } = req.query
 
-    const totalAmount = prisma.$queryRaw`SELECT SUM(ps.paymentAmount) as totalAmt
-    FROM payment p, paymentSplit ps 
+    const totalAmount = await prisma.$queryRaw`SELECT SUM(ps.paymentAmount) as totalAmt
+    FROM is430.payment p, is430.paymentSplit ps 
     WHERE p.paymentId = ps.mainPaymentId
-    AND payerId = ${uuid};`
+    AND payerId = ${uuid}`
 
-    const totalAmtPaid = prisma.$queryRaw`SELECT SUM(ps.paymentAmount) as totalAmtPaid 
+    const totalAmtPaid = await prisma.$queryRaw`SELECT SUM(ps.paymentAmount) as totalAmtPaid 
     FROM payment p, paymentSplit ps 
     WHERE p.paymentId = ps.mainPaymentId 
     AND ps.paymentStatus = 'P' 
     AND payerId = ${uuid};`
 
-    const currenthMthBill = prisma.$queryRaw`SELECT * 
+    const currenthMthBill = await prisma.$queryRaw`SELECT * 
     FROM payment p, paymentSplit ps
     WHERE p.paymentId = ps.mainPaymentId 
     AND MONTH(ps.paymentDate) = MONTH(CURDATE())
