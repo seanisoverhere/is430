@@ -14,6 +14,8 @@ import usePayment from "@/hooks/api/usePayment";
 const Home = () => {
   const [hydrated, setHydrated] = useState<boolean>(false);
   const [data, setData] = useState<any>();
+  const [loans, setLoans] = useState<any>([]);
+
   const {
     getBill,
     getTotalLoans,
@@ -63,6 +65,8 @@ const Home = () => {
           },
         ],
       });
+
+      setLoans(totalLoans.currentMonthBill);
     }
   }, [totalLoans]);
 
@@ -87,10 +91,16 @@ const Home = () => {
       </StyledDivider>
       <LoanContainer style={{ maxHeight: `calc(100vh - ${numCards})` }}>
         <StyledSpace direction="vertical" size="large">
-          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
-          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
-          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
-          <RepaymentCard title="Electronic Solutions Co." cost={1522.33} />
+          {loans.length > 0 &&
+            loans.map((loan: any) => (
+              <RepaymentCard
+                key={loan.mainPaymentId}
+                title={loan.companyName}
+                uen={loan.uenNo}
+                cost={Number(loan.paymentAmount)}
+                dueDate={loan.dueDate}
+              />
+            ))}
         </StyledSpace>
       </LoanContainer>
     </>
