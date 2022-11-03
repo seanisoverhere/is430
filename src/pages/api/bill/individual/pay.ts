@@ -25,13 +25,10 @@ const pay = async (
     req: NextApiRequest,
     res: NextApiResponse
 ) => {
-    let { splitLoanId } = req.body
-
-    console.log(req.body)
 
     const data = await prisma.paymentSplit.update({
         where: {
-            splitLoanId: Number(splitLoanId)
+            splitLoanId: Number(req.body)
         },
         data: {
             paymentStatus: 'P'
@@ -40,13 +37,13 @@ const pay = async (
 
     if (!data) {
         return res.status(400).json({
-            message: "Payment failed",
+            message: "Payment update failed",
             success: false
         })
     }
 
     return res.status(200).json({
-        message: "Payment inserted",
+        message: "Payment updated success",
         success: true
     })
 }
