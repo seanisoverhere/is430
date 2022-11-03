@@ -20,7 +20,7 @@ type RepaymentCardProps = {
   dueDate: string;
   totalPayment: number;
   totalPaidPayment: number;
-  isLate: boolean;
+  isLate?: boolean;
 };
 
 const RepaymentCard = ({

@@ -15,6 +15,7 @@ const Home = () => {
   const [hydrated, setHydrated] = useState<boolean>(false);
   const [data, setData] = useState<any>();
   const [loans, setLoans] = useState<any>([]);
+  const [latePayments, setLatePayments] = useState<any>([]);
 
   const { getBill, getTotalLoans, bill, totalLoans } = usePayment();
 
@@ -60,6 +61,7 @@ const Home = () => {
       });
 
       setLoans(totalLoans.currentMonthBill);
+      setLatePayments(totalLoans.latePaymentBill);
     }
   }, [totalLoans]);
 
@@ -78,7 +80,22 @@ const Home = () => {
           />
         </ChartContainer>
       )}
-      <StyledDivider>Overdue Payments</StyledDivider>
+      {latePayments?.length > 0 && (
+        <StyledDivider>Overdue Payments</StyledDivider>
+      )}
+      {latePayments?.length > 0 &&
+        latePayments.map((loan: any) => (
+          <RepaymentCard
+            key={loan.mainPaymentId}
+            title={loan.companyName}
+            uen={loan.uenNo}
+            cost={Number(loan.paymentAmount)}
+            dueDate={loan.dueDate}
+            totalPayment={loan.totalNoOfPayment}
+            totalPaidPayment={loan.totalNoOfPaidPayment}
+            isLate
+          />
+        ))}
       <StyledDivider>
         Upcoming Payments for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
         {DateTime.local().year}
