@@ -46,6 +46,7 @@ const login = async (
 
     return res.status(200).json({
         message: "Login success",
-        success: true
+        success: true,
+        uuid: data.uuid
     })
 }
