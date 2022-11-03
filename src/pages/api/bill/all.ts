@@ -27,6 +27,18 @@ const retrieveAllLoans = async (
 ) => {
     let { uuid } = req.query
 
+    const aggScore: any = await prisma.$queryRaw`SELECT aggScore FROM is430.business WHERE uuid = ${uuid}`
+    const companyAggScore = aggScore[0].aggScore
+    let lateFeePercent: number = 0
+
+    if (Number(companyAggScore) >= Number(0.825)) {
+        lateFeePercent = 0.01
+    } else if (Number(companyAggScore) >= 0.755 && Number(companyAggScore) < 0.825) {
+        lateFeePercent = 0.02
+    } else if (Number(companyAggScore) >= 0 && Number(companyAggScore) < 0.755) {
+        lateFeePercent = 0.03
+    }
+
     const totalAmount = await prisma.$queryRaw`SELECT SUM(ps.paymentAmount) as totalAmt
     FROM is430.payment p, is430.paymentSplit ps 
     WHERE p.paymentId = ps.mainPaymentId
@@ -38,7 +50,7 @@ const retrieveAllLoans = async (
     AND ps.paymentStatus = 'P' 
     AND payerId = ${uuid};`
 
-    const latePaymentBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo
+    const latePaymentBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, (ps.paymentAmount * SUM(1+ ${lateFeePercent})) as paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo
     FROM supplier sup, paymentSplit ps, payment p
     LEFT JOIN
     (SELECT t1.paymentId, totalNoOfPayment, totalNoOfPaidPayment
@@ -99,10 +111,6 @@ const retrieveAllLoans = async (
         bill.totalNoOfPayment = Number(bill.totalNoOfPayment);
         bill.totalNoOfPaidPayment = Number(bill.totalNoOfPaidPayment);
     })
-
-    // currenthMthBill = currenthMthBill.filter((bill: any) => {
-    //     !latePaymentBill.find((rm: any) => (rm.paymentId === bill.paymentId))
-    // })
 
     for (var i = currenthMthBill.length - 1; i >= 0; i--) {
         for (var j = 0; j < latePaymentBill.length; j++) {
