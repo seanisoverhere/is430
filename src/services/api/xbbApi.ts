@@ -17,11 +17,14 @@ const createWeightedScore = (data: IAggregateScore) =>
 const signUp = (data: ISignupDetails) => xbbApi.post("/company/register", data);
 const logIn = (data: IUserDetails) => xbbApi.post("/company/login", data);
 const getLoan = (data: IMakeLoan) => xbbApi.post("/bill/pay", data);
+const payBill = (splitLoanId: number) =>
+  xbbApi.post("/bill/individual/pay", splitLoanId);
 
 export default {
   getBills,
   getTotalLoans,
   signUp,
+  payBill,
   getLoan,
   logIn,
   createWeightedScore,

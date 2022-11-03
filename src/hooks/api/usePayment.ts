@@ -27,11 +27,19 @@ const usePayment = () => {
     setIsTotalLoansLoading(false);
   };
 
+  const payBill = async (splitLoanId: number) => {
+    const response: ApiResponse<any> = await xbbApi.payBill(splitLoanId);
+    if (response.status === 200) {
+      return response.data;
+    }
+  };
+
   return {
     bill,
     isBillLoading,
     isTotalLoansLoading,
     totalLoans,
+    payBill,
     getBill,
     getTotalLoans,
   };

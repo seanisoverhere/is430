@@ -16,17 +16,18 @@ import usePayment from "@/hooks/api/usePayment";
 import { useRouter } from "next/router";
 import { UserOutlined } from "@ant-design/icons";
 import { InstructionText } from "../Signup/styles";
-import { Col, Divider, Row, Steps } from "antd";
+import { Col, Divider, Row, Steps, message } from "antd";
 import { DateTime } from "luxon";
 
 const Payments = () => {
-  const { getBill, bill } = usePayment();
+  const { getBill, bill, payBill } = usePayment();
   const [company, setCompany] = useState<string>("");
   const [uenNo, setUenNo] = useState<string>("");
   const [paymentId, setPaymentId] = useState<number>();
   const [totalPayment, setTotalPayment] = useState<number>();
   const [paymentItems, setPaymentItems] = useState<any>([]);
   const [firstUnpaid, setFirstUnpaid] = useState<number>(0);
+  const [currentPaymentId, setCurrentPaymentId] = useState<number>();
 
   const router = useRouter();
 
@@ -50,6 +51,7 @@ const Payments = () => {
       );
 
       setFirstUnpaid(item);
+      setCurrentPaymentId(bill.individualBills[item].splitLoanId);
 
       bill?.individualBills.forEach((item: any, index: number) => {
         setPaymentItems((prev: any) => [
@@ -62,6 +64,17 @@ const Payments = () => {
       });
     }
   }, [bill]);
+
+  const handleBillPayment = async () => {
+    if (currentPaymentId) {
+      const res = await payBill(Number(currentPaymentId));
+      console.log(res);
+      if (res.success) {
+        message.success("Payment successful!");
+        router.push("/");
+      }
+    }
+  };
 
   return (
     <>
@@ -128,7 +141,9 @@ const Payments = () => {
                   </StyledCard>
                 </StyledSpace>
               </ScrollableCard>
-              <StyledButton>Pay now</StyledButton>
+              <StyledButton onClick={() => handleBillPayment()}>
+                Pay now
+              </StyledButton>
             </>
           ) : (
             <InstructionText>
