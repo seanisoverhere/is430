@@ -39,8 +39,9 @@ const retrieveAllLoans = async (
     AND payerId = ${uuid};`
 
     const currenthMthBill = await prisma.$queryRaw`SELECT * 
-    FROM payment p, paymentSplit ps
+    FROM payment p, paymentSplit ps, supplier sup
     WHERE p.paymentId = ps.mainPaymentId 
+    AND p.receiverId = sup.uuid
     AND MONTH(ps.paymentDate) = MONTH(CURDATE())
     AND ps.paymentStatus = 'IP' 
     AND p.payerId = ${uuid};`
