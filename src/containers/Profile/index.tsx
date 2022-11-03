@@ -7,12 +7,12 @@ import {
   InstructionText,
   FormContainer,
   StyledRow,
-  BottomStyledButton,
   Container,
 } from "./styles";
 import { Col } from "antd";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/FormInput";
+import { StyledButton } from "@/utils/styles";
 
 const Profile = () => {
   const {
@@ -120,8 +120,8 @@ const Profile = () => {
                 errors={errors}
               />
             </Col>
+            <StyledButton>Submit</StyledButton>
           </StyledRow>
-          <BottomStyledButton>Submit</BottomStyledButton>
         </form>
       </FormContainer>
     </Container>
