@@ -1,29 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PageTitle } from "@/utils/styles";
-import { InstructionText, FormContainer, StyledRow, Container } from "./styles";
+import {
+  InstructionText,
+  FormContainer,
+  StyledRow,
+  Container,
+  CompanyName,
+  FlexContainer,
+  CompanyUen,
+  ScoreText,
+  Color,
+} from "./styles";
 import { Col } from "antd";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/FormInput";
 import { StyledButton } from "@/utils/styles";
+import useCompany from "@/hooks/api/useCompany";
+import { getColor } from "@/utils/functions";
 
 const Profile = () => {
   const {
     register,
-    handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({ mode: "all" });
+
+  const { getCompanyInfo, companyInfo } = useCompany();
+
+  useEffect(() => {
+    getCompanyInfo({
+      uuid: Number(localStorage.getItem("uuid")),
+    });
+  }, []);
 
   return (
     <Container>
       <PageTitle>Profile</PageTitle>
+      {companyInfo && (
+        <FlexContainer>
+          <CompanyName>{companyInfo.companyName}</CompanyName>
+          <CompanyUen>{companyInfo.uenNo}</CompanyUen>
+        </FlexContainer>
+      )}
       <InstructionText>
         We will prompt you <strong>quarterly</strong> to update your company
         financial health with us for a{" "}
         <strong>re-assessment of your credit score</strong>. Alternatively, you
         may also update at any point in time. We will update you on your credit
         score within <strong>3-5 working days</strong>.
+        <ScoreText>
+          Your Current Score:{" "}
+          {companyInfo && (
+            <Color $color={getColor(companyInfo.aggScore)}>
+              {companyInfo.aggScore}
+            </Color>
+          )}
+        </ScoreText>
       </InstructionText>
+
       <FormContainer>
         <form onSubmit={() => console.log("submit")}>
           <StyledRow gutter={[0, 24]}>
@@ -108,8 +141,8 @@ const Profile = () => {
                 errors={errors}
               />
             </Col>
-            <StyledButton>Submit</StyledButton>
           </StyledRow>
+          <StyledButton>Submit</StyledButton>
         </form>
       </FormContainer>
     </Container>
