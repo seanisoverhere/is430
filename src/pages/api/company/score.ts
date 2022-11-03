@@ -42,6 +42,6 @@ const getAggScore = async (
     return res.status(200).json({
         message: "Business found",
         success: true,
-        aggScore: Number(data.aggScore)
+        company: data
     })
 }
