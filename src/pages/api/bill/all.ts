@@ -100,6 +100,7 @@ const retrieveAllLoans = async (
     ON t1.paymentId = t2.paymentId) as t3
     ON ps.mainPaymentId = t3.paymentId
     WHERE p.paymentId = ps.mainPaymentId
+    AND sup.uuid = p.receiverId
     AND MONTH(ps.paymentDate) = MONTH(CURDATE())
     AND YEAR(ps.paymentDate) = YEAR(CURDATE())
     AND ps.paymentStatus = 'IP' 
