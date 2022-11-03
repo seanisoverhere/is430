@@ -39,9 +39,19 @@ const pay = async (
             dueDate: (DateTime.local().plus({ month: repaymentPeriod })).toJSDate(),
             totalAmount: paymentAmt,
             paymentStatus: "IP",
-            payerId: uuid,
-            receiverId: companyUuid?.uuid,
-        }
+            payer: {
+                connectOrCreate: {
+                    where: { uuid: uuid },
+                    create: { uuid: uuid },
+                },
+            },
+            receiver: {
+                connectOrCreate: {
+                    where: { uuid: Number(companyUuid?.uuid) },
+                    create: { uuid: Number(companyUuid?.uuid) },
+                },
+            },
+        },
     })
 
     const mthlyPayment = paymentAmt / repaymentPeriod
