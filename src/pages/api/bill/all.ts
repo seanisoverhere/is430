@@ -128,21 +128,21 @@ const retrieveAllLoans = async (
     FROM
     (SELECT p.paymentId, COUNT(*)  as totalNoOfPayment FROM payment p, paymentSplit ps 
     WHERE p.paymentId = ps.mainPaymentId
-    AND p.payerId = 17
+    AND p.payerId = ${uuid}
     GROUP BY p.paymentId) as t1
     LEFT JOIN
     (SELECT p.paymentId, p.totalAmount, COUNT(ps.paymentStatus) as totalNoOfPaidPayment FROM payment p
     LEFT JOIN paymentSplit ps 
     ON p.paymentId = ps.mainPaymentId
     AND ps.paymentStatus = 'P'
-    AND p.payerId = 17
+    AND p.payerId = ${uuid}
     GROUP BY p.paymentId) as t2
     ON t1.paymentId = t2.paymentId
     WHERE totalNoOfPayment > totalNoOfPaidPayment) as t3
     ON ps.mainPaymentId = t3.paymentId
     WHERE p.paymentId = ps.mainPaymentId
     AND sup.uuid = p.receiverId
-    AND p.payerId = 17
+    AND p.payerId = ${uuid}
     GROUP BY p.paymentId, t3.totalNoOfPayment, p.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo;`
 
     activeBills.forEach((bill: any) => {
