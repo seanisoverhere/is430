@@ -25,7 +25,13 @@ const pay = async (
     req: NextApiRequest,
     res: NextApiResponse
 ) => {
-    let { uuid, companyName, uenNo, repaymentPeriod, paymentAmt } = req.body
+    let { uuid, uenNo, repaymentPeriod, paymentAmt } = req.body
+
+
+    const repaymentPercent: any = {
+        3: [0.5, 0.3, 0.2],
+        6: [0.4, 0.3, 0.2, 0.1]
+    }
 
     const companyUuid = await prisma.supplier.findFirst({
         where: {
@@ -54,25 +60,18 @@ const pay = async (
         },
     })
 
-    const mthlyPayment = paymentAmt / repaymentPeriod
+    const remainingPaymentAmt = paymentAmt
 
     for (let i = 0; i < repaymentPeriod; i++) {
         await prisma.paymentSplit.create({
             data: {
                 paymentDate: (DateTime.local().plus({ month: i })).toJSDate(),
                 paymentStatus: i == 0 ? 'P' : 'IP',
-                paymentAmount: mthlyPayment,
+                paymentAmount: remainingPaymentAmt * repaymentPercent[repaymentPeriod][i],
                 mainPaymentId: data.paymentId
             }
         })
     }
-
-    // if (!mthlyPayment) {
-    //     return res.status(404).json({
-    //         message: "Sign up failed",
-    //         success: false
-    //     })
-    // }
 
     return res.status(200).json({
         message: "Payment inserted",
