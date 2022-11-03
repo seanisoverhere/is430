@@ -38,7 +38,7 @@ const retrieveAllLoans = async (
     AND ps.paymentStatus = 'P' 
     AND payerId = ${uuid};`
 
-    const currenthMthBill = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment
+    const currenthMthBill: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment
     FROM paymentSplit ps, payment p
     LEFT JOIN
     (SELECT t1.paymentId, totalNoOfPayment, totalNoOfPaidPayment
@@ -61,6 +61,11 @@ const retrieveAllLoans = async (
     AND ps.paymentStatus = 'IP' 
     AND p.payerId = ${uuid}
     GROUP BY p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment;`
+
+    currenthMthBill.forEach((bill: any) => {
+        bill.totalNoOfPayment = Number(bill.totalNoOfPayment);
+        bill.totalNoOfPaidPayment = Number(bill.totalNoOfPaidPayment);
+    })
 
     return res.status(200).json({
         totalAmt: totalAmount,
