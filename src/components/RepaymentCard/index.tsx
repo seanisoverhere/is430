@@ -8,6 +8,7 @@ import {
   MakePayment,
   PaymentText,
   StyledCard,
+  LateText,
 } from "./styles";
 import { BarcodeOutlined, CreditCardOutlined } from "@ant-design/icons";
 import { DateTime } from "luxon";
@@ -17,13 +18,28 @@ type RepaymentCardProps = {
   uen: string;
   cost: number;
   dueDate: string;
+  totalPayment: number;
+  totalPaidPayment: number;
+  isLate?: boolean;
 };
 
-const RepaymentCard = ({ title, uen, cost, dueDate }: RepaymentCardProps) => {
+const RepaymentCard = ({
+  title,
+  uen,
+  cost,
+  dueDate,
+  totalPayment,
+  totalPaidPayment,
+  isLate,
+}: RepaymentCardProps) => {
   return (
     <StyledCard
       title={`${title} (${uen})`}
-      extra={`$${cost.toFixed(2).toLocaleString()}`}
+      extra={
+        <LateText $isLate={isLate}>
+          ${cost.toFixed(2).toLocaleString()}
+        </LateText>
+      }
     >
       <FlexContainer>
         <Space direction="vertical">
@@ -33,7 +49,10 @@ const RepaymentCard = ({ title, uen, cost, dueDate }: RepaymentCardProps) => {
               {DateTime.fromISO(dueDate).toFormat("dd MMM yyyy")}
             </>
           </PaymentText>
-          <InstallmentText>Installment 20 of 24</InstallmentText>
+          <InstallmentText>
+            Installment {totalPaidPayment} of {totalPayment}
+          </InstallmentText>
+          {isLate && <LateText $isLate={isLate}>Late Fees: $123,45</LateText>}
 
           <MakePayment>
             <CreditCardOutlined
