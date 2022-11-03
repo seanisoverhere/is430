@@ -30,7 +30,7 @@ const pay = async (
 
     const repaymentPercent: any = {
         3: [0.4, 0.35, 0.25],
-        6: [0.4, 0.3, 0.2, 0.1]
+        6: [0.3, 0.2, 0.16, 0.14, 0.11, 0.09]
     }
 
     const companyUuid = await prisma.supplier.findFirst({
@@ -47,8 +47,8 @@ const pay = async (
             paymentStatus: "IP",
             payer: {
                 connectOrCreate: {
-                    where: { uuid: uuid },
-                    create: { uuid: uuid },
+                    where: { uuid: Number(uuid) },
+                    create: { uuid: Number(uuid) },
                 },
             },
             receiver: {
@@ -60,15 +60,12 @@ const pay = async (
         },
     })
 
-
-    for (let i = 0; i < repaymentPeriod; i++) {
-        console.log(repaymentPercent[repaymentPeriod][i])
-        
+    for (let i: number = 0; i < repaymentPeriod; i++) {
         await prisma.paymentSplit.create({
             data: {
                 paymentDate: (DateTime.local().plus({ month: i })).toJSDate(),
                 paymentStatus: 'IP',
-                paymentAmount: paymentAmt * repaymentPercent[repaymentPeriod][i],
+                paymentAmount: paymentAmt * repaymentPercent[Number(repaymentPeriod)][i],
                 mainPaymentId: data.paymentId
             }
         })
