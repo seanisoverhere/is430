@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card } from "antd";
+import { Card } from "antd-mobile";
 
 export const StyledCard = styled(Card)`
   && {
@@ -18,4 +18,44 @@ export const StyledCard = styled(Card)`
       font-weight: 500;
     }
   }
+`;
+
+export const PaymentText = styled.span`
+  color: #666;
+`;
+
+export const BoldText = styled.span`
+  /* font-weight: 600; */
+`;
+
+export const InstallmentText = styled.div`
+  font-size: 0.7rem;
+  color: #666;
+`;
+
+export const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const CompanyLogo = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+`;
+
+export const MakePayment = styled.div`
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-weight: 600;
+`;
+
+export const LateText = styled.div<{ $isLate?: boolean }>`
+  color: ${(props) => (props.$isLate ? "#f5222d" : "#666")};
 `;

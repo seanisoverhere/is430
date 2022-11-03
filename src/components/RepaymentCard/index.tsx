@@ -12,6 +12,7 @@ import {
 } from "./styles";
 import { BarcodeOutlined, CreditCardOutlined } from "@ant-design/icons";
 import { DateTime } from "luxon";
+import { useRouter } from "next/router";
 
 type RepaymentCardProps = {
   title: string;
@@ -20,6 +21,7 @@ type RepaymentCardProps = {
   dueDate: string;
   totalPayment: number;
   totalPaidPayment: number;
+  paymentId: number;
   isLate?: boolean;
   lateFee?: number;
 };
@@ -31,11 +33,22 @@ const RepaymentCard = ({
   dueDate,
   totalPayment,
   totalPaidPayment,
+  paymentId,
   isLate,
   lateFee,
 }: RepaymentCardProps) => {
+  const router = useRouter();
+
+  const handleReroute = () => {
+    router.push({
+      pathname: "/payments",
+      query: { billId: paymentId },
+    });
+  };
+
   return (
     <StyledCard
+      onClick={() => handleReroute()}
       title={`${title} (${uen})`}
       extra={
         <LateText $isLate={isLate}>
