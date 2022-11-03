@@ -1,67 +1,71 @@
-// import { NextApiRequest, NextApiResponse } from "next";
-// import { prisma } from "@/lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "@/lib/prisma";
+import { DateTime } from "luxon";
 
-// type Data = {
-//     data?: string;
-//     message: string;
-//     success: boolean;
-// };
+type Data = {
+    data?: string;
+    message: string;
+    success: boolean;
+};
 
-// export default async function handler(
-//     req: NextApiRequest,
-//     res: NextApiResponse<Data>
-// ) {
-//     if (req.method === "POST") {
-//         return await signup(req, res);
-//     }
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<Data>
+) {
+    if (req.method === "POST") {
+        return await pay(req, res);
+    }
 
-//     return res
-//         .status(405)
-//         .json({ message: "Method not allowed", success: false });
-// }
+    return res
+        .status(405)
+        .json({ message: "Method not allowed", success: false });
+}
 
-// const signup = async (
-//     req: NextApiRequest,
-//     res: NextApiResponse
-// ) => {
-//     let { uuid, supplierId, paidAmt, tenure } = req.body
+const pay = async (
+    req: NextApiRequest,
+    res: NextApiResponse
+) => {
+    let { uuid, companyName, uenNo, repaymentPeriod, paymentAmt } = req.body
 
-//     if (!email || !password) {
-//         return res.json({ result: "Email or Password required" })
-//     }
+    const companyUuid = await prisma.supplier.findFirst({
+        where: {
+            uenNo: uenNo,
+        }
+    })
 
-//     let data = await prisma.business.findFirst({
-//         where: {
-//             email: email
-//         }
-//     })
+    const data = await prisma.payment.create({
+        data: {
+            paymentDate: DateTime.local().toJSDate(),
+            dueDate: (DateTime.local().plus({ month: repaymentPeriod })).toJSDate(),
+            totalAmount: paymentAmt,
+            paymentStatus: "IP",
+            payerId: uuid,
+            receiverId: companyUuid?.uuid,
+        }
+    })
 
-//     if (data) {
-//         return res.status(400).json({
-//             message: "Email is used",
-//             success: false
-//         })
-//     }
+    const mthlyPayment = paymentAmt / repaymentPeriod
 
-//     data = await prisma.business.create({
-//         data: {
-//             email: email,
-//             password: password,
-//             companyName: companyName,
-//             uenNo: uenNo
-//         }
-//     })
+    for (let i = 0; i < repaymentPeriod; i++) {
+        await prisma.paymentSplit.create({
+            data: {
+                paymentDate: (DateTime.local().plus({ month: i })).toJSDate(),
+                paymentStatus: i == 0 ? 'P' : 'IP',
+                paymentAmount: mthlyPayment,
+                mainPaymentId: data.paymentId
+            }
+        })
+    }
 
-//     if (!data) {
-//         return res.status(404).json({
-//             message: "Sign up failed",
-//             success: false
-//         })
-//     }
+    // if (!mthlyPayment) {
+    //     return res.status(404).json({
+    //         message: "Sign up failed",
+    //         success: false
+    //     })
+    // }
 
-//     return res.status(200).json({
-//         message: "Sign up success",
-//         uuid: data.uuid,
-//         success: true
-//     })
-// }
+    return res.status(200).json({
+        message: "Payment inserted",
+        success: true
+    })
+}
