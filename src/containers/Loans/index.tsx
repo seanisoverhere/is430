@@ -11,9 +11,11 @@ import {
   StyledInput,
   InputText,
   StyledSelect,
+  RepaymentContainer,
 } from "./styles";
 import { Col } from "antd";
 import { supplierOptions } from "@/utils/constants/suppliers";
+import { monthsSplit } from "@/utils/constants/months";
 import { InstructionText } from "../Home/styles";
 
 const { Option } = StyledSelect;
@@ -23,6 +25,7 @@ const Loans = () => {
   const [amountInput, setAmountInput] = useState<number>(0);
   const [hasError, setHasError] = useState<boolean>(false);
   const [uen, setUen] = useState<string>();
+  const [repaymentMonth, setRepaymentMonth] = useState<number>();
 
   const checkLoanLogic = (amount?: string) => {
     if (Number(amount) > 300000) {
@@ -39,6 +42,10 @@ const Loans = () => {
 
   const handleOnChange = (value: any) => {
     setUen(value);
+  };
+
+  const handleMonthChange = (value: any) => {
+    setRepaymentMonth(value);
   };
 
   return (
@@ -66,6 +73,16 @@ const Loans = () => {
           <StyledInput type="text" value={uen} />
         </Col>
       </StyledRow>
+      <RepaymentContainer>
+        <InputText>Repayment Period:</InputText>
+        <StyledSelect bordered={false} onChange={handleMonthChange}>
+          {Object.entries(monthsSplit).map(([key, value]) => (
+            <Option key={value} value={value}>
+              {key}
+            </Option>
+          ))}
+        </StyledSelect>
+      </RepaymentContainer>
       <CurrencyContainer>
         <HelperText>Please enter your loan amount</HelperText>
         <StyledCurrencyInput
