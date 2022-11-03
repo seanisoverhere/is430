@@ -7,6 +7,8 @@ const xbbApi = apiSauce.create({
 });
 
 // READ
+const getBills = (billId: number) => xbbApi.get(`/bills${billId}`);
+const getTotalLoans = (uuid: number) => xbbApi.get(`/bill/all/${uuid}`);
 
 // CREATE
 const createWeightedScore = (data: IAggregateScore) =>
@@ -16,6 +18,8 @@ const signUp = (data: ISignupDetails) => xbbApi.post("/company/register", data);
 const logIn = (data: IUserDetails) => xbbApi.post("/company/login", data);
 
 export default {
+  getBills,
+  getTotalLoans,
   signUp,
   logIn,
   createWeightedScore,
