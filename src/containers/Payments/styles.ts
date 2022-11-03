@@ -13,14 +13,7 @@ export const StyledSpace = styled(Space)`
 
 export const StyledCard = styled(Card)`
   && {
-    font-weight: 600;
     border-radius: 15px;
-
-    &.ant-card:hover {
-      box-shadow: 0 0 0 0.1rem #f0f0f0;
-      scale: 101%;
-      transition: all 0.3s ease-in-out;
-    }
 
     .ant-card-header {
       font-weight: 500;
@@ -57,5 +50,9 @@ export const ItemName = styled.div`
 `;
 
 export const ItemDetails = styled.div`
-  color: #999;
+  color: #000;
+`;
+
+export const Item = styled.div`
+  margin: 0.5rem 0;
 `;
