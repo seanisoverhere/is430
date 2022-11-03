@@ -16,14 +16,7 @@ const Home = () => {
   const [data, setData] = useState<any>();
   const [loans, setLoans] = useState<any>([]);
 
-  const {
-    getBill,
-    getTotalLoans,
-    isBillLoading,
-    isTotalLoansLoading,
-    bill,
-    totalLoans,
-  } = usePayment();
+  const { getBill, getTotalLoans, bill, totalLoans } = usePayment();
 
   useEffect(() => {
     setHydrated(true);
@@ -85,8 +78,9 @@ const Home = () => {
           />
         </ChartContainer>
       )}
+      <StyledDivider>Overdue Payments</StyledDivider>
       <StyledDivider>
-        Upcoming payment for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
+        Upcoming Payments for {DateTime.local().plus({ month: 1 }).monthShort}{" "}
         {DateTime.local().year}
       </StyledDivider>
       <LoanContainer style={{ maxHeight: `calc(100vh - ${numCards})` }}>
@@ -99,6 +93,8 @@ const Home = () => {
                 uen={loan.uenNo}
                 cost={Number(loan.paymentAmount)}
                 dueDate={loan.dueDate}
+                totalPayment={loan.totalNoOfPayment}
+                totalPaidPayment={loan.totalNoOfPaidPayment}
               />
             ))}
         </StyledSpace>
