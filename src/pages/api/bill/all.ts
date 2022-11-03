@@ -123,7 +123,7 @@ const retrieveAllLoans = async (
 
     const activeBills: any = await prisma.$queryRaw`SELECT p.paymentId, t3.totalNoOfPayment, p.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate, sup.companyName, sup.uenNo
     FROM supplier sup, payment p, paymentSplit ps
-    LEFT JOIN
+    INNER JOIN
     (SELECT t1.paymentId, totalNoOfPayment, totalNoOfPaidPayment
     FROM
     (SELECT p.paymentId, COUNT(*)  as totalNoOfPayment FROM payment p, paymentSplit ps 
