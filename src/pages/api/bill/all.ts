@@ -61,7 +61,7 @@ const retrieveAllLoans = async (
     AND MONTH(ps.paymentDate) = MONTH(CURDATE())
     AND ps.paymentStatus = 'IP' 
     AND p.payerId = 17
-    GROUP BY p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment;`
+    GROUP BY p.paymentId, t3.totalNoOfPayment, ps.paymentAmount, ps.paymentDate, t3.totalNoOfPaidPayment, sup.uuid, p.dueDate;`
 
     currenthMthBill.forEach((bill: any) => {
         bill.totalNoOfPayment = Number(bill.totalNoOfPayment);
