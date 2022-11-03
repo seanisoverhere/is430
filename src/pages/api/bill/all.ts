@@ -7,10 +7,6 @@ type Data = {
     success: boolean;
 };
 
-type TotalAmount = {
-    totalAmt: number
-}
-
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
