@@ -27,6 +27,8 @@ const pay = async (
 ) => {
     let { splitLoanId } = req.body
 
+    console.log(req.body)
+
     const data = await prisma.paymentSplit.update({
         where: {
             splitLoanId: Number(splitLoanId)
