@@ -9,16 +9,32 @@ import {
 } from "./styles";
 import RepaymentCard from "@/components/RepaymentCard";
 import { HalfPieChart } from "@/components/Chart";
-
-// Focus on other market
-// forex as a risk factor
+import usePayment from "@/hooks/api/usePayment";
 
 const Home = () => {
   const [hydrated, setHydrated] = useState<boolean>(false);
+  const {
+    getBill,
+    getTotalLoans,
+    isBillLoading,
+    isTotalLoansLoading,
+    bill,
+    totalLoans,
+  } = usePayment();
 
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (hydrated) {
+      getTotalLoans(Number(localStorage.getItem("uuid")));
+    }
+  }, [hydrated]);
+
+  useEffect(() => {
+    console.log(totalLoans);
+  }, [totalLoans]);
 
   const data = {
     right: [

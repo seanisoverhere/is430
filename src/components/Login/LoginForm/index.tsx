@@ -37,6 +37,7 @@ const LoginForm = () => {
 
     if (res.data.success) {
       message.success("Login successful");
+      localStorage.setItem("uuid", res.data.uuid);
       router.push("/");
     } else {
       message.error("Login Failed");

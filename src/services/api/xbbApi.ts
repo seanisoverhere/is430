@@ -8,7 +8,7 @@ const xbbApi = apiSauce.create({
 
 // READ
 const getBills = (billId: number) => xbbApi.get(`/bills${billId}`);
-const getTotalLoans = (uuid: number) => xbbApi.get(`/bill/all/${uuid}`);
+const getTotalLoans = (uuid: number) => xbbApi.get(`/bill/all?uuid=${uuid}`);
 
 // CREATE
 const createWeightedScore = (data: IAggregateScore) =>
