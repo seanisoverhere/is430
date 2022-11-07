@@ -14,7 +14,7 @@ import {
   RepaymentContainer,
 } from "./styles";
 import { Col } from "antd";
-import { supplierOptions } from "@/utils/constants/suppliers";
+import { invoices } from "@/utils/constants/suppliers";
 import { monthsSplit } from "@/utils/constants/months";
 import { InstructionText } from "../Home/styles";
 import useLoans from "@/hooks/api/useLoans";
@@ -46,6 +46,7 @@ const Loans = () => {
 
   const submitLoan = async () => {
     if (repaymentMonth && amountInput) {
+      console.log(amountInput)
       const res = await getLoan({
         companyName,
         uenNo: uen,
@@ -61,9 +62,12 @@ const Loans = () => {
     }
   };
 
-  const handleOnChange = (uen: any, option: any) => {
-    setUen(uen);
-    setCompanyName(option.children);
+  const handleOnChange = (val: any) => {
+    // @ts-ignore
+    const selectedInvoice = invoices[val];
+    setUen(selectedInvoice.uen);
+    setCompanyName(selectedInvoice.name);
+    setAmountInput(selectedInvoice.amount);
   };
 
   const handleMonthChange = (value: any) => {
@@ -80,18 +84,22 @@ const Loans = () => {
         the loan
       </InstructionText>
       <StyledRow justify="space-between">
-        <Col span={11}>
-          <InputText>Supplier:</InputText>
+        <Col span={24} style={{ paddingBottom: "2rem" }}>
+          <InputText>Invoice</InputText>
           <StyledSelect
             bordered={false}
-            onChange={(val, opt) => handleOnChange(val, opt)}
+            onChange={(val) => handleOnChange(val)}
           >
-            {Object.entries(supplierOptions).map(([key, value]) => (
-              <Option key={value} value={value}>
+            {Object.entries(invoices).map(([key]) => (
+              <Option key={key} value={key}>
                 {key}
               </Option>
             ))}
           </StyledSelect>
+        </Col>
+        <Col span={11}>
+          <InputText>Company Name</InputText>
+          <StyledInput type="text" value={companyName} />
         </Col>
         <Col span={11}>
           <InputText>UEN</InputText>
@@ -113,6 +121,7 @@ const Loans = () => {
         <StyledCurrencyInput
           $hasError={hasError}
           name="amount"
+          value={amountInput}
           prefix="S$"
           decimalsLimit={2}
           max={3000000}
