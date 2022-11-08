@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/prisma";
-import { DateTime } from "luxon";
 
 type Data = {
     data?: string;
@@ -32,16 +31,42 @@ const pay = async (
         },
         data: {
             paymentStatus: 'P'
+        },
+        include: {
+            mainPayment: {
+                include: {
+                    invoice: true
+                }
+            }
         }
     })
 
-    const nextPayment = await prisma.paymentSplit.findUnique({
-        where: {
-            splitLoanId: Number(data.splitLoanId + 1)
+    const header = {
+        Header: {
+            'serviceName': 'creditTransfer',
+            'userID': 'DEUT0000001',
+            'PIN': '123456',
+            'OTP': '999999',
         }
+    }
+
+    const content = {
+        Content: {
+            'accountFrom': String(data.mainPayment?.payerAcctId),
+            'accountTo': String(data.mainPayment?.invoice?.receiverAcctId),
+            'transactionAmount': String(data.paymentAmount),
+            'transactionReferenceNumber': String(data.splitLoanId),
+            'narrative': 'Credit Transfer',
+        }
+    }
+
+    const jsonHeader = JSON.stringify(header)
+    const jsonContent = JSON.stringify(content)
+
+    await fetch(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${jsonHeader}&Content=${jsonContent}`, {
+        method: 'POST',
     })
 
-    //update main payment to be 'P' if all P
     const remainAmt: any = await prisma.$queryRaw`SELECT (totalAmount - SUM(paymentAmount)) as remainingAmount 
     FROM payment p, paymentSplit ps
     WHERE p.paymentId = ps.mainPaymentId
@@ -56,39 +81,6 @@ const pay = async (
             data: {
                 paymentStatus: 'P'
             }
-        })
-
-        await fetch("http://tbankonline.com/SMUtBank_API/Gateway", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'serviceName': 'addStandingInstruction',
-                'userID': '',
-                'PIN': '',
-                'OTP': '999999',
-            },
-            body: JSON.stringify({
-                'standingInstructionID': String(data.mainPaymentId)
-            })
-        })
-    } else {
-        await fetch("http://tbankonline.com/SMUtBank_API/Gateway", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'serviceName': 'updateStandingInstruction',
-                'userID': '',
-                'PIN': '',
-                'OTP': '999999',
-            },
-            body: JSON.stringify({
-                'standingInstructionID': String(data.mainPaymentId),
-                'amount': String(nextPayment?.paymentAmount), //need find a way to get the next payment
-                'nextDateTime': String(DateTime.fromISO(String(data.paymentDate)).plus({ month: 1 }).toJSDate()),
-                'isRecurring': 'true',
-                'frequency': 'Monthly',
-                'narrative': 'Payment',
-            })
         })
     }
 
