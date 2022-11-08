@@ -21,6 +21,9 @@ const payBill = (splitLoanId: number) =>
   xbbApi.post("/bill/individual/pay", splitLoanId);
 const getCompanyInfo = (data: ICompanyInfo) =>
   xbbApi.post("/company/score", data);
+const getAllInvoice = (uuid: number) => xbbApi.get(`/invoice/${uuid}`);
+const getSingleInvoice = (invoiceId: number) =>
+  xbbApi.get(`/invoice/${invoiceId}`);
 
 export default {
   getBills,
@@ -31,4 +34,6 @@ export default {
   getLoan,
   logIn,
   createWeightedScore,
+  getAllInvoice,
+  getSingleInvoice,
 };
