@@ -26,8 +26,8 @@ const tabs = [
     icon: <AppOutline />,
   },
   {
-    key: "loans",
-    title: "Loans",
+    key: "financing",
+    title: "Financing",
     icon: <BankcardOutline />,
   },
   {

@@ -42,7 +42,7 @@ const Home = () => {
             displayValue: `$ ${Number(
               totalLoans.totalAmtPaid[0].totalAmtPaid
             ).toFixed(2)}`,
-            text: "Loans Paid",
+            text: "Amount Paid",
             color: "#1ccf8d",
           },
         ],

@@ -92,7 +92,7 @@ const Loans = () => {
 
   return (
     <>
-      <PageTitle>Loans</PageTitle>
+      <PageTitle>Financing</PageTitle>
       <InstructionText>
         Please enter the amount you would like to borrow, you are only limited
         to <strong>S$300,000</strong> per loan instance. Please note that it
