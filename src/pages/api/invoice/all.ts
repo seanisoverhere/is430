@@ -27,9 +27,8 @@ const getSingleInvoice = async (
 
     const { uuid } = req.query
 
-    const data = await prisma.$queryRaw`SELECT * FROM invoice i, payment p 
-    WHERE i.invoiceId = p.invoiceId
-    AND p.paymentStatus = 'IP'
+    const data = await prisma.$queryRaw`SELECT * FROM invoice i, supplier sup
+    WHERE i.receiverId = sup.uuid
     AND i.payerId = ${uuid};`
 
     return res.status(200).json({

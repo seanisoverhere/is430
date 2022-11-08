@@ -30,7 +30,7 @@ const getSingleInvoice = async (
     const data = await prisma.invoice.findUnique({
         where: {
             invoiceId: String(invoiceId)
-        }
+        },
     })
 
     return res.status(200).json({
