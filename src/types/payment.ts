@@ -4,4 +4,5 @@ export type IMakeLoan = {
   repaymentPeriod: number;
   paymentAmt: number;
   uuid: number;
+  payerAccountId: string;
 };

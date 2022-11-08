@@ -31,11 +31,11 @@ const Loans = () => {
   const [uen, setUen] = useState<string>("");
   const [repaymentMonth, setRepaymentMonth] = useState<number>();
   const [companyName, setCompanyName] = useState<string>("");
+  const [payingAccountId, setPayingAccountId] = useState<string>("");
   const { getLoan } = useLoans();
   const router = useRouter();
 
-  const { getAllInvoices, invoices, getSingleInvoice, invoiceDetails } =
-    useInvoice();
+  const { getAllInvoices, invoices } = useInvoice();
 
   useEffect(() => {
     getAllInvoices(Number(localStorage.getItem("uuid")));
@@ -64,6 +64,7 @@ const Loans = () => {
         repaymentPeriod: repaymentMonth,
         paymentAmt: amountInput,
         uuid: Number(localStorage.getItem("uuid")),
+        payerAccountId: payingAccountId,
       });
 
       if (res.data.success) {
@@ -81,10 +82,6 @@ const Loans = () => {
       setAmountInput(Number(invoice.amount));
     }
   };
-
-  useEffect(() => {
-    console.log(invoiceDetails);
-  }, [invoiceDetails]);
 
   const handleMonthChange = (value: any) => {
     setRepaymentMonth(value);
@@ -114,13 +111,27 @@ const Loans = () => {
               ))}
           </StyledSelect>
         </Col>
-        <Col span={11}>
+        <Col span={11} style={{ paddingBottom: "2rem" }}>
           <InputText>Company Name</InputText>
           <StyledInput type="text" value={companyName} />
         </Col>
-        <Col span={11}>
+        <Col span={11} style={{ paddingBottom: "2rem" }}>
           <InputText>UEN</InputText>
           <StyledInput type="text" value={uen} />
+        </Col>
+        <Col span={11}>
+          <InputText>Bank Account</InputText>
+          <StyledSelect bordered={false}>
+            <Option value="tBank">tBank</Option>
+          </StyledSelect>
+        </Col>
+        <Col span={11}>
+          <InputText>Paying Account ID</InputText>
+          <StyledInput
+            type="text"
+            value={payingAccountId}
+            onChange={(e) => setPayingAccountId(e.target.value)}
+          />
         </Col>
       </StyledRow>
       <RepaymentContainer>
