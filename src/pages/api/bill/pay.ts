@@ -25,7 +25,7 @@ const pay = async (
     req: NextApiRequest,
     res: NextApiResponse
 ) => {
-    let { uuid, uenNo, repaymentPeriod, paymentAmt } = req.body
+    let { uuid, uenNo, repaymentPeriod, paymentAmt, invoiceId, payerAcctId } = req.body
 
 
     const repaymentPercent: any = {
@@ -39,12 +39,15 @@ const pay = async (
         }
     })
 
+    const currentDate = DateTime.local()
+
     const data = await prisma.payment.create({
         data: {
             paymentDate: DateTime.local().toJSDate(),
             dueDate: (DateTime.local().plus({ month: repaymentPeriod })).toJSDate(),
             totalAmount: paymentAmt,
             paymentStatus: "IP",
+            payerAcctId: payerAcctId,
             payer: {
                 connectOrCreate: {
                     where: { uuid: Number(uuid) },
@@ -57,13 +60,20 @@ const pay = async (
                     create: { uuid: Number(companyUuid?.uuid) },
                 },
             },
+            invoice: {
+                connectOrCreate: {
+                    where: { invoiceId: String(invoiceId) },
+                    create: { invoiceId: String(invoiceId) },
+                }
+            }
         },
     })
+
 
     for (let i: number = 0; i < repaymentPeriod; i++) {
         await prisma.paymentSplit.create({
             data: {
-                paymentDate: (DateTime.local().plus({ month: i })).toJSDate(),
+                paymentDate: (currentDate.plus({ month: i })).toJSDate(),
                 paymentStatus: 'IP',
                 paymentAmount: paymentAmt * repaymentPercent[Number(repaymentPeriod)][i],
                 mainPaymentId: data.paymentId

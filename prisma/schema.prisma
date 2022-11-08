@@ -18,6 +18,7 @@ model business {
   uenNo       String?
   aggScore    Decimal?  @db.Decimal(10, 2)
   payment     payment[]
+  invoice     invoice[]
 }
 
 model supplier {
@@ -27,6 +28,18 @@ model supplier {
   companyName String?
   uenNo       String?
   payment     payment[]
+  invoice     invoice[]
+}
+
+model invoice {
+  invoiceId      String    @id
+  amount         Decimal?  @db.Decimal(10, 2)
+  receiver       supplier? @relation(fields: [receiverId], references: [uuid])
+  receiverId     Int?
+  receiverAcctId String?
+  payer          business? @relation(fields: [payerId], references: [uuid])
+  payerId        Int?
+  payment        payment[]
 }
 
 model payment {
@@ -37,8 +50,11 @@ model payment {
   paymentStatus String?
   payer         business?      @relation(fields: [payerId], references: [uuid])
   payerId       Int?
+  payerAcctId   String?
   receiver      supplier?      @relation(fields: [receiverId], references: [uuid])
   receiverId    Int?
+  invoice       invoice?       @relation(fields: [invoiceId], references: [invoiceId])
+  invoiceId     String?
   paymentSplit  paymentSplit[]
 }
 
