@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/prisma";
-import { DateTime } from "luxon";
 
 type Data = {
     data?: string;
@@ -34,6 +33,24 @@ const pay = async (
             paymentStatus: 'P'
         }
     })
+
+    //update main payment to be 'P' if all P
+    const remainAmt: any = await prisma.$queryRaw`SELECT (totalAmount - SUM(paymentAmount)) as remainingAmount 
+    FROM payment p, paymentSplit ps
+    WHERE p.paymentId = ps.mainPaymentId
+    AND p.paymentId = ${data.mainPaymentId}
+    GROUP BY p.paymentId;`
+
+    if (remainAmt.remainingAmount === 0) {
+        await prisma.payment.update({
+            where: {
+                paymentId: Number(data.mainPaymentId)
+            },
+            data: {
+                paymentStatus: 'P'
+            }
+        })
+    }
 
     if (!data) {
         return res.status(400).json({

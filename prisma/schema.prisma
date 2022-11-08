@@ -38,7 +38,6 @@ model invoice {
   receiverId Int?
   payer      business? @relation(fields: [payerId], references: [uuid])
   payerId    Int?
-  payerUen   String?
   payment    payment[]
 }
 
