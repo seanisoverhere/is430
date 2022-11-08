@@ -32,6 +32,7 @@ const Loans = () => {
   const [repaymentMonth, setRepaymentMonth] = useState<number>();
   const [companyName, setCompanyName] = useState<string>("");
   const [payingAccountId, setPayingAccountId] = useState<string>("");
+  const [invoiceId, setInvoiceId] = useState<string>("");
   const { getLoan } = useLoans();
   const router = useRouter();
 
@@ -59,12 +60,13 @@ const Loans = () => {
   const submitLoan = async () => {
     if (repaymentMonth && amountInput) {
       const res = await getLoan({
+        invoiceId,
         companyName,
         uenNo: uen,
         repaymentPeriod: repaymentMonth,
         paymentAmt: amountInput,
         uuid: Number(localStorage.getItem("uuid")),
-        payerAccountId: payingAccountId,
+        payerAcctId: payingAccountId,
       });
 
       if (res.data.success) {
@@ -80,6 +82,7 @@ const Loans = () => {
       setUen(invoice.uenNo);
       setCompanyName(invoice.companyName);
       setAmountInput(Number(invoice.amount));
+      setInvoiceId(invoice.invoiceId);
     }
   };
 

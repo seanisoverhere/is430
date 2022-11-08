@@ -1,8 +1,9 @@
 export type IMakeLoan = {
+  invoiceId: string;
   companyName: string;
   uenNo: string;
   repaymentPeriod: number;
   paymentAmt: number;
   uuid: number;
-  payerAccountId: string;
+  payerAcctId: string;
 };
