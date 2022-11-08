@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageTitle, StyledButton } from "@/utils/styles";
 import {
   AlignError,
@@ -14,12 +14,13 @@ import {
   RepaymentContainer,
 } from "./styles";
 import { Col } from "antd";
-import { invoices } from "@/utils/constants/suppliers";
+// import { invoices } from "@/utils/constants/suppliers";
 import { monthsSplit } from "@/utils/constants/months";
 import { InstructionText } from "../Home/styles";
 import useLoans from "@/hooks/api/useLoans";
 import { message } from "antd";
 import { useRouter } from "next/router";
+import useInvoice from "@/hooks/api/useInvoice";
 
 const { Option } = StyledSelect;
 
@@ -32,6 +33,17 @@ const Loans = () => {
   const [companyName, setCompanyName] = useState<string>("");
   const { getLoan } = useLoans();
   const router = useRouter();
+
+  const { getAllInvoices, invoices, getSingleInvoice, invoiceDetails } =
+    useInvoice();
+
+  useEffect(() => {
+    getAllInvoices(Number(localStorage.getItem("uuid")));
+  }, []);
+
+  useEffect(() => {
+    console.log(invoices);
+  }, [invoices]);
 
   const checkLoanLogic = (amount?: string) => {
     if (Number(amount) > 300000) {
@@ -46,7 +58,6 @@ const Loans = () => {
 
   const submitLoan = async () => {
     if (repaymentMonth && amountInput) {
-      console.log(amountInput)
       const res = await getLoan({
         companyName,
         uenNo: uen,
@@ -63,12 +74,17 @@ const Loans = () => {
   };
 
   const handleOnChange = (val: any) => {
-    // @ts-ignore
-    const selectedInvoice = invoices[val];
-    setUen(selectedInvoice.uen);
-    setCompanyName(selectedInvoice.name);
-    setAmountInput(selectedInvoice.amount);
+    const invoice = invoices?.find((invoice) => invoice.invoiceId === val);
+    if (invoice) {
+      setUen(invoice.uenNo);
+      setCompanyName(invoice.companyName);
+      setAmountInput(Number(invoice.amount));
+    }
   };
+
+  useEffect(() => {
+    console.log(invoiceDetails);
+  }, [invoiceDetails]);
 
   const handleMonthChange = (value: any) => {
     setRepaymentMonth(value);
@@ -90,11 +106,12 @@ const Loans = () => {
             bordered={false}
             onChange={(val) => handleOnChange(val)}
           >
-            {Object.entries(invoices).map(([key]) => (
-              <Option key={key} value={key}>
-                {key}
-              </Option>
-            ))}
+            {invoices &&
+              invoices.map((invoice, index) => (
+                <Option key={index} value={invoice.invoiceId}>
+                  {invoice.invoiceId}
+                </Option>
+              ))}
           </StyledSelect>
         </Col>
         <Col span={11}>

@@ -10,7 +10,7 @@ const useInvoice = () => {
   const getAllInvoices = async (uuid: number) => {
     const response: ApiResponse<any> = await xbbApi.getAllInvoice(uuid);
     if (response.ok) {
-      setInvoices(response.data);
+      setInvoices(response.data.invoice);
     }
     return response;
   };

@@ -1,6 +1,6 @@
 export type Invoice = {
   companyName: string;
-  companyUen: string;
+  uenNo: string;
   invoiceId: number;
   amount: number;
   receiverId: number;

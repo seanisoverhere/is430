@@ -10,6 +10,9 @@ const xbbApi = apiSauce.create({
 // READ
 const getBills = (billId: number) => xbbApi.get(`/bill/${billId}`);
 const getTotalLoans = (uuid: number) => xbbApi.get(`/bill/all?uuid=${uuid}`);
+const getAllInvoice = (uuid: number) => xbbApi.get(`/invoice/all?uuid=${uuid}`);
+const getSingleInvoice = (invoiceId: number) =>
+  xbbApi.get(`/invoice/single?invoiceId=${invoiceId}`);
 
 // CREATE
 const createWeightedScore = (data: IAggregateScore) =>
@@ -21,9 +24,6 @@ const payBill = (splitLoanId: number) =>
   xbbApi.post("/bill/individual/pay", splitLoanId);
 const getCompanyInfo = (data: ICompanyInfo) =>
   xbbApi.post("/company/score", data);
-const getAllInvoice = (uuid: number) => xbbApi.get(`/invoice/${uuid}`);
-const getSingleInvoice = (invoiceId: number) =>
-  xbbApi.get(`/invoice/${invoiceId}`);
 
 export default {
   getBills,
