@@ -76,7 +76,7 @@ const pay = async (
     if (remainAmt.remainingAmount === 0) {
         await prisma.payment.update({
             where: {
-                paymentId: String(data.mainPaymentId)
+                paymentId: Number(data.mainPaymentId)
             },
             data: {
                 paymentStatus: 'P'

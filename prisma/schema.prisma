@@ -43,7 +43,7 @@ model invoice {
 }
 
 model payment {
-  paymentId     String         @id
+  paymentId     Int            @id @default(autoincrement())
   paymentDate   DateTime?
   dueDate       DateTime?
   totalAmount   Decimal?
@@ -64,5 +64,5 @@ model paymentSplit {
   paymentStatus String?
   paymentAmount Decimal?
   mainPayment   payment?  @relation(fields: [mainPaymentId], references: [paymentId])
-  mainPaymentId String?
+  mainPaymentId Int?
 }

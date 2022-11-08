@@ -47,78 +47,45 @@ const pay = async (
 
     const currentDate = DateTime.local()
 
-    const header = {
-        Header: {
-            'serviceName': 'addStandingInstruction',
-            'userID': 'DEUT0000001',
-            'PIN': '123456',
-            'OTP': '999999',
-        }
-    }
-
-    const content = {
-        Content: {
-            // 'accountFrom': String(payerAcctId),
-            'accountFrom': String('0000009633'),
-            'accountTo': String('0000009636'),
-            'transactionAmount': String('10000'),
-            'transactionReferenceNumber': '123456',
-            'nextDateTime': String((currentDate.plus({ month: 1 })).toJSDate()),
-            'isRecurring': 'true',
-            'weekly_monthly': 'Monthly',
-            'narrative': 'Payment',
-        }
-    }
-
-    const jsonHeader = JSON.stringify(header)
-    const jsonContent = JSON.stringify(content)
-
-    const addStandingInstruction: any = await fetch(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${jsonHeader}&Content=${jsonContent}`, {
-        method: 'POST',
+    const data = await prisma.payment.create({
+        data: {
+            paymentDate: DateTime.local().toJSDate(),
+            dueDate: (DateTime.local().plus({ month: repaymentPeriod })).toJSDate(),
+            totalAmount: paymentAmt,
+            paymentStatus: "IP",
+            payerAcctId: payerAcctId,
+            payer: {
+                connectOrCreate: {
+                    where: { uuid: Number(uuid) },
+                    create: { uuid: Number(uuid) },
+                },
+            },
+            receiver: {
+                connectOrCreate: {
+                    where: { uuid: Number(companyUuid?.uuid) },
+                    create: { uuid: Number(companyUuid?.uuid) },
+                },
+            },
+            invoice: {
+                connectOrCreate: {
+                    where: { invoiceId: String(invoiceId) },
+                    create: { invoiceId: String(invoiceId) },
+                }
+            }
+        },
     })
 
-    console.log(addStandingInstruction)
 
-    // const data = await prisma.payment.create({
-    //     data: {
-    //         paymentId: String(standingInstructionId),
-    //         paymentDate: DateTime.local().toJSDate(),
-    //         dueDate: (DateTime.local().plus({ month: repaymentPeriod })).toJSDate(),
-    //         totalAmount: paymentAmt,
-    //         paymentStatus: "IP",
-    //         payerAcctId: payerAcctId,
-    //         payer: {
-    //             connectOrCreate: {
-    //                 where: { uuid: Number(uuid) },
-    //                 create: { uuid: Number(uuid) },
-    //             },
-    //         },
-    //         receiver: {
-    //             connectOrCreate: {
-    //                 where: { uuid: Number(companyUuid?.uuid) },
-    //                 create: { uuid: Number(companyUuid?.uuid) },
-    //             },
-    //         },
-    //         invoice: {
-    //             connectOrCreate: {
-    //                 where: { invoiceId: String(invoiceId) },
-    //                 create: { invoiceId: String(invoiceId) },
-    //             }
-    //         }
-    //     },
-    // })
-
-
-    // for (let i: number = 0; i < repaymentPeriod; i++) {
-    //     await prisma.paymentSplit.create({
-    //         data: {
-    //             paymentDate: (currentDate.plus({ month: i })).toJSDate(),
-    //             paymentStatus: 'IP',
-    //             paymentAmount: paymentAmt * repaymentPercent[Number(repaymentPeriod)][i],
-    //             mainPaymentId: data.paymentId
-    //         }
-    //     })
-    // }
+    for (let i: number = 0; i < repaymentPeriod; i++) {
+        await prisma.paymentSplit.create({
+            data: {
+                paymentDate: (currentDate.plus({ month: i })).toJSDate(),
+                paymentStatus: 'IP',
+                paymentAmount: paymentAmt * repaymentPercent[Number(repaymentPeriod)][i],
+                mainPaymentId: data.paymentId
+            }
+        })
+    }
 
     return res.status(200).json({
         message: "Payment inserted",
