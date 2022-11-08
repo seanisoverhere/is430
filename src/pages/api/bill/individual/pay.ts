@@ -25,21 +25,6 @@ const pay = async (
     res: NextApiResponse
 ) => {
 
-    const data = await prisma.paymentSplit.update({
-        where: {
-            splitLoanId: Number(req.body)
-        },
-        data: {
-            paymentStatus: 'P'
-        },
-        include: {
-            mainPayment: {
-                include: {
-                    invoice: true
-                }
-            }
-        }
-    })
 
     const header = {
         Header: {
@@ -63,8 +48,31 @@ const pay = async (
     const jsonHeader = JSON.stringify(header)
     const jsonContent = JSON.stringify(content)
 
-    await fetch(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${jsonHeader}&Content=${jsonContent}`, {
+    const creditTransfer: any = await fetch(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${jsonHeader}&Content=${jsonContent}`, {
         method: 'POST',
+    })
+
+    if (creditTransfer.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID !== "010000") {
+        return res.status(400).json({
+            message: "Payment update failed",
+            success: false
+        })
+    }
+
+    const data = await prisma.paymentSplit.update({
+        where: {
+            splitLoanId: 2
+        },
+        data: {
+            paymentStatus: 'P'
+        },
+        include: {
+            mainPayment: {
+                include: {
+                    invoice: true
+                }
+            }
+        }
     })
 
     const remainAmt: any = await prisma.$queryRaw`SELECT (totalAmount - SUM(paymentAmount)) as remainingAmount 

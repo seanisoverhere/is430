@@ -39,12 +39,6 @@ const pay = async (
         }
     })
 
-    const invoice = await prisma.invoice.findUnique({
-        where: {
-            invoiceId: String(invoiceId)
-        }
-    })
-
     const currentDate = DateTime.local()
 
     const data = await prisma.payment.create({
