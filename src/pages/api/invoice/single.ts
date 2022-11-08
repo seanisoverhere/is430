@@ -12,7 +12,7 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     if (req.method === "GET") {
-        return await pay(req, res);
+        return await getSingleInvoice(req, res);
     }
 
     return res
@@ -20,17 +20,18 @@ export default async function handler(
         .json({ message: "Method not allowed", success: false });
 }
 
-const pay = async (
+const getSingleInvoice = async (
     req: NextApiRequest,
     res: NextApiResponse
 ) => {
 
-    const uuid = req.query
+    const { invoiceId } = req.query
 
-    const data = await prisma.$queryRaw`SELECT * FROM invoice i, payment p 
-    WHERE i.invoiceId = p.invoiceId
-    AND p.paymentStatus = 'IP'
-    AND i.payerId = ${uuid};`
+    const data = await prisma.invoice.findUnique({
+        where: {
+            invoiceId: String(invoiceId)
+        }
+    })
 
     return res.status(200).json({
         message: "Payment updated success",
