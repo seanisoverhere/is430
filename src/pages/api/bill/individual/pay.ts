@@ -60,7 +60,7 @@ const pay = async (
 
     const data = await prisma.paymentSplit.update({
         where: {
-            splitLoanId: 2
+            splitLoanId: req.body
         },
         data: {
             paymentStatus: 'P'

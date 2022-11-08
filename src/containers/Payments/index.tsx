@@ -67,6 +67,7 @@ const Payments = () => {
 
   const handleBillPayment = async () => {
     if (currentPaymentId) {
+      console.log(currentPaymentId)
       const res = await payBill(Number(currentPaymentId));
       if (res.success) {
         message.success("Payment successful!");
